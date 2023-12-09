@@ -96,25 +96,24 @@ def create_graph_from_files(zip_node_file, node_file, zip_edge_file, edge_file):
 
 def create_graph_and_index(file_path):
     graph = nx.DiGraph()
-    node_index = {}
     node_set, edge_set = get_sets(file_path)
 
-    for index, node_info in enumerate(node_set):
+    for node_info in node_set:
         node_id, x, y = node_info
-        graph.add_node(index, x=x, y=y)
-        node_index[node_id] = index
+        graph.add_node(int(node_id), x=x, y=y)
 
     for edge_info in edge_set:
         node_id1, node_id2 = edge_info
-        graph.add_edge(node_index[node_id1], node_index[node_id2])
+        graph.add_edge(int(node_id1), int(node_id2))
 
-    return graph, node_index
+    return graph
 
 
-def save_graph_data(graph, node_index, json_path):
+def save_graph_data(graph, json_path):
     dict_to_store = {
-        'graph': nx.to_dict_of_dicts(graph),
-        'index': node_index
+        'edges': list(graph.edges),
+        'attributes': [(int(node_id), int(data['x']), int(data['y'])) for
+                       node_id, data in graph.nodes(data=True)]
     }
     with open(json_path, 'w') as file:
         json.dump(dict_to_store, file)
@@ -124,10 +123,20 @@ def load_graph_data(json_path):
     with open(json_path, 'r') as file:
         graph_data = json.load(file)
 
-    graph = nx.DiGraph(graph_data['graph'])
-    node_index = graph_data['index']
+    graph = nx.DiGraph()
 
-    return graph, node_index
+    # Add nodes with consecutive integer indices
+    node_index = {node_id: index for index, (node_id, _, _) in
+                  enumerate(graph_data['attributes'])}
+    for node_id, x, y in graph_data['attributes']:
+        graph.add_node(node_index[node_id], x=x, y=y)
+
+    # Add edges with consecutive integer indices
+    edges = [(node_index[node_id1], node_index[node_id2]) for node_id1, node_id2
+             in graph_data['edges']]
+    graph.add_edges_from(edges)
+
+    return graph
 
 
 def get_sets(file_path):

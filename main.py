@@ -20,17 +20,28 @@ tl_json_path = r'.\data_files\tl_data.json'
 
 
 def main():
-    graph, node_index = create_graph_and_index(path_to_trajectory)
-    save_graph_data(graph, node_index, oldenburg_json_path)
-    graph, node_index = load_graph_data(oldenburg_json_path)
-    print(graph)
-    # print(node_index)
+
+    graph = create_graph_and_index(path_to_trajectory)
+    save_graph_data(graph, oldenburg_json_path)
+    graph = load_graph_data(oldenburg_json_path)
 
     deep_walk = DeepWalk()
     deep_walk.fit(graph)
     vec_graph = deep_walk.get_embedding()
 
     print(vec_graph)
+
+    # graph, node_index = create_graph_and_index(path_to_trajectory)
+    # # save_graph_data(graph, node_index, oldenburg_json_path)
+    # # graph, node_index = load_graph_data(oldenburg_json_path)
+    # print(graph)
+    # # print(node_index)
+    #
+    # deep_walk = DeepWalk()
+    # deep_walk.fit(graph)
+    # vec_graph = deep_walk.get_embedding()
+    #
+    # print(vec_graph)
 
 
     # graph_file = create_graph_from_files(zip_node_file, node_file, zip_edge_file, edge_file)
