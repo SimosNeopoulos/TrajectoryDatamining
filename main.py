@@ -1,11 +1,12 @@
-from functions import *
-from karateclub.node_embedding.neighbourhood.deepwalk import DeepWalk
-import networkx as nx
+import data_handler as dh
+import similarity_mesures as sm
 
 path_to_trajectory = r'C:\Trajectory_Generator\generator_v2\oldenberg.dat'
 # path_to_trajectory = r'C:\Trajectory_Generator\generator_v2\tl_2017_06075_edges.dat'
 oldenburg_json_path = r'.\data_files\oldenburg_data.json'
 tl_json_path = r'.\data_files\tl_data.json'
+oldenburg_pairs_path = r'.\data_files\oldenburg_data.pkl'
+tl_pairs_path = r'.\data_files\tl_data.pkl'
 
 
 # zip_node_file = r'C:\Trajectory_Generator\generator_v2\oldenburgGen.node.zip'
@@ -20,32 +21,18 @@ tl_json_path = r'.\data_files\tl_data.json'
 
 
 def main():
+    print(':)')
 
-    graph = create_graph_and_index(path_to_trajectory)
-    save_graph_data(graph, oldenburg_json_path)
-    graph = load_graph_data(oldenburg_json_path)
-
-    deep_walk = DeepWalk()
-    deep_walk.fit(graph)
-    vec_graph = deep_walk.get_embedding()
-
-    print(vec_graph)
-
-    # graph, node_index = create_graph_and_index(path_to_trajectory)
-    # # save_graph_data(graph, node_index, oldenburg_json_path)
-    # # graph, node_index = load_graph_data(oldenburg_json_path)
-    # print(graph)
-    # # print(node_index)
-    #
-    # deep_walk = DeepWalk()
-    # deep_walk.fit(graph)
-    # vec_graph = deep_walk.get_embedding()
-    #
-    # print(vec_graph)
+    # graph, node_index, embedding_dict = dh.create_graph_and_index(
+    #     path_to_trajectory)
+    # dh.save_graph_data(graph, node_index, embedding_dict,
+    #                 oldenburg_json_path)
+    # graph, node_index, embedding_dict = dh.load_graph_data(
+    #     tl_json_path)
+    # dh.save_graph_pairs(graph, tl_pairs_path)
+    # pair_dict = dh.load_graph_pairs(oldenburg_pairs_path)
 
 
-    # graph_file = create_graph_from_files(zip_node_file, node_file, zip_edge_file, edge_file)
-    # print(graph_file)
     # trajectory_catalog = get_trajectory_catalog(path_to_trajectory)
     #
     # print(k_similar_trajectories(trajectory_catalog[0], trajectory_catalog, 5))
@@ -53,4 +40,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
