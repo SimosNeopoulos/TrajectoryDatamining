@@ -1,5 +1,7 @@
 from trajectory import Trajectory
+from karateclub.node_embedding.neighbourhood.node2vec import Node2Vec
 from point import Point
+import pickle
 import networkx as nx
 import json
 import struct
@@ -21,7 +23,7 @@ CURRENT_NODE_ID = 9
 NEXT_NODE_ID = 10
 
 
-# old code, before started using brute force with generator #####################
+# old code, before started using brute force with generator ###################
 
 def read_node(in_file):
     try:
@@ -96,27 +98,53 @@ def create_graph_from_files(zip_node_file, node_file, zip_edge_file, edge_file):
 
 def create_graph_and_index(file_path):
     graph = nx.DiGraph()
+    node_index = {}
     node_set, edge_set = get_sets(file_path)
 
-    for node_info in node_set:
+    for index, node_info in enumerate(node_set):
         node_id, x, y = node_info
-        graph.add_node(int(node_id), x=x, y=y)
+        graph.add_node(index, x=x, y=y)
+        node_index[int(node_id)] = index
 
     for edge_info in edge_set:
         node_id1, node_id2 = edge_info
-        graph.add_edge(int(node_id1), int(node_id2))
+        graph.add_edge(node_index[int(node_id1)], node_index[int(node_id2)])
 
-    return graph
+    node2vec = Node2Vec()
+    node2vec.fit(graph)
+    vec_graph = node2vec.get_embedding()
+
+    # The keys of embedding_dict are type 'str' after being saved in JSON
+    embedding_dict = {int(index): vec_graph[int(index)].tolist() for index in
+                      sorted(graph.nodes)}
+
+    return graph, node_index, embedding_dict
 
 
-def save_graph_data(graph, json_path):
+def save_graph_data(graph, node_index, embedding_dict, json_path):
     dict_to_store = {
         'edges': list(graph.edges),
-        'attributes': [(int(node_id), int(data['x']), int(data['y'])) for
-                       node_id, data in graph.nodes(data=True)]
+        'attributes': [
+            (node_id, int(graph.nodes[node_id]['x']),
+             int(graph.nodes[node_id]['y'])) for
+            node_id in graph.nodes],
+        'node_index': node_index,
+        'embedding_dict': embedding_dict
     }
     with open(json_path, 'w') as file:
         json.dump(dict_to_store, file)
+
+
+def save_graph_pairs(graph, file_path):
+    pair_dict = dict(nx.all_pairs_shortest_path_length(graph))
+    with open(file_path, 'wb') as file:
+        pickle.dump(pair_dict, file)
+
+
+def load_graph_pairs(file_path):
+    with open(file_path, 'rb') as file:
+        loaded_dict = pickle.load(file)
+    return loaded_dict
 
 
 def load_graph_data(json_path):
@@ -125,18 +153,27 @@ def load_graph_data(json_path):
 
     graph = nx.DiGraph()
 
-    # Add nodes with consecutive integer indices
-    node_index = {node_id: index for index, (node_id, _, _) in
-                  enumerate(graph_data['attributes'])}
-    for node_id, x, y in graph_data['attributes']:
-        graph.add_node(node_index[node_id], x=x, y=y)
+    # Add nodes with integer indices and attributes
+    for node_data in graph_data['attributes']:
+        index, x, y = node_data
+        graph.add_node(index, x=int(x), y=int(y))
 
-    # Add edges with consecutive integer indices
-    edges = [(node_index[node_id1], node_index[node_id2]) for node_id1, node_id2
-             in graph_data['edges']]
-    graph.add_edges_from(edges)
+    for edge_data in graph_data['edges']:
+        index1, index2 = edge_data
+        graph.add_edge(index1, index2)
 
-    return graph
+    node_index = {int(key): value for key, value in
+                  graph_data['node_index'].items()}
+
+    embedding_dict = graph_data['embedding_dict']
+    # for index, (node_id, x, y) in enumerate(graph_data['attributes']):
+    #     graph.add_node(index, x=int(x), y=int(y), original_node_id=node_id)
+    #
+    # # Add edges with integer indices
+    # edges = [(index1, index2) for index1, index2 in graph_data['edges']]
+    # graph.add_edges_from(edges)
+
+    return graph, node_index, embedding_dict
 
 
 def get_sets(file_path):
@@ -218,26 +255,3 @@ def get_trajectory_catalog(path_to_trajectory):
                 get_point_from_line(line_values)
             )
     return trajectory_catalog
-
-
-def get_jaccard_similarity(trajectory1, trajectory2):
-    edge_list1 = trajectory1.get_edge_list()
-    edge_list2 = trajectory2.get_edge_list()
-    intersection = len(list(set(edge_list1).intersection(edge_list2)))
-    union = (len(edge_list1) + len(edge_list2)) - intersection
-    similarity = float(intersection) / union
-    return similarity, trajectory2.id
-
-
-def k_similar_trajectories(trajectory: Trajectory,
-                           trajectories_to_compare: dict, k: int):
-    weighted_list = []
-
-    for key in trajectories_to_compare.keys():
-        dict_trajectory = trajectories_to_compare[key]
-        if dict_trajectory == trajectory:
-            continue
-        weighted_list.append(
-            get_jaccard_similarity(trajectory, dict_trajectory))
-
-    return sorted(weighted_list, key=lambda x: x[0], reverse=True)[:k]
