@@ -1,5 +1,6 @@
 from trajectory import Trajectory
 from karateclub.node_embedding.neighbourhood.node2vec import Node2Vec
+from timeit import default_timer as timer
 from point import Point
 import pickle
 import networkx as nx
@@ -97,6 +98,8 @@ def create_graph_from_files(zip_node_file, node_file, zip_edge_file, edge_file):
 
 
 def create_graph_and_index(file_path):
+    start = timer()
+
     graph = nx.DiGraph()
     node_index = {}
     node_set, edge_set = get_sets(file_path)
@@ -110,13 +113,24 @@ def create_graph_and_index(file_path):
         node_id1, node_id2 = edge_info
         graph.add_edge(node_index[int(node_id1)], node_index[int(node_id2)])
 
+    end = timer()
+
+    print(f'Time to create graph: {(end - start):.5f}sec')
+
+    start = timer()
     node2vec = Node2Vec()
     node2vec.fit(graph)
     vec_graph = node2vec.get_embedding()
+    end = timer()
+
+    print(f'Time for Node2Vec embedding: {(end - start):.5f}sec')
 
     # The keys of embedding_dict are type 'str' after being saved in JSON
+    start = timer()
     embedding_dict = {int(index): vec_graph[int(index)].tolist() for index in
                       sorted(graph.nodes)}
+    end = timer()
+    print(f'Time for embedding_dict: {(end - start):.5f}sec')
 
     return graph, node_index, embedding_dict
 
@@ -136,7 +150,11 @@ def save_graph_data(graph, node_index, embedding_dict, json_path):
 
 
 def save_graph_pairs(graph, file_path):
+    start = timer()
     pair_dict = dict(nx.all_pairs_shortest_path_length(graph))
+    end = timer()
+    print(f'Time for pairs: {(end - start):.5f}sec')
+
     with open(file_path, 'wb') as file:
         pickle.dump(pair_dict, file)
 
