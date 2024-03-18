@@ -9,17 +9,17 @@ import struct
 import zipfile as zp
 
 # Information on how to read a line from the trajectory file
-NEW_TRAJECTORY_VALUE = '0'
-END_OF_TRAJECTORY = '2'
-NEW_TRAJECTORY_VALUE_LOCATION = 0
-TRAJECTORY_ID_LOCATION = 1
-OBJECT_CLASS_ID_LOCATION = 2
-TIME_LOCATION = 3
-CURRENT_X_LOCATION = 4
-CURRENT_Y_LOCATION = 5
-CURRENT_SPEED_LOCATION = 6
-NEXT_X_LOCATION = 7
-NEXT_Y_LOCATION = 8
+NEW_TRAJ_VALUE = '0'
+END_OF_TRAJ = '2'
+NEW_TRAJ_VALUE_LOC = 0
+TRAJ_ID_LOC = 1
+OBJECT_CLASS_ID_LOC = 2
+TIME_LOC = 3
+CURRENT_X_LOC = 4
+CURRENT_Y_LOC = 5
+CURRENT_SPEED_LOC = 6
+NEXT_X_LOC = 7
+NEXT_Y_LOC = 8
 CURRENT_NODE_ID = 9
 NEXT_NODE_ID = 10
 
@@ -97,6 +97,19 @@ def create_graph_from_files(zip_node_file, node_file, zip_edge_file, edge_file):
 ########################################################################
 
 
+def print_to_file(text, file_path=f'./data_files/similarity_data.txt'):
+    with open(file_path, 'a') as file:
+        file.write(text + '\n')
+
+
+def get_time_from_secs(secs):
+    hrs = secs // 3600
+    mins = (secs % 3600) // 60
+    rem_secs = secs % 60
+
+    return int(hrs), int(mins), rem_secs
+
+
 def create_graph_and_index(file_path):
     start = timer()
 
@@ -115,7 +128,13 @@ def create_graph_and_index(file_path):
 
     end = timer()
 
-    print(f'Time to create graph: {(end - start):.5f}sec')
+    print(graph.__str__())
+    print_to_file(graph.__str__() + '\n')
+
+    hrs, mins, secs = get_time_from_secs(end - start)
+    text_to_print = f'Time to create graph: {hrs}hr {mins}min {secs:.5f}sec\n'
+    print(text_to_print)
+    print_to_file(text_to_print)
 
     start = timer()
     node2vec = Node2Vec()
@@ -123,19 +142,27 @@ def create_graph_and_index(file_path):
     vec_graph = node2vec.get_embedding()
     end = timer()
 
-    print(f'Time for Node2Vec embedding: {(end - start):.5f}sec')
+    hrs, mins, secs = get_time_from_secs(end - start)
+    text_to_print = f'Time for Node2Vec embedding: {hrs}hr {mins}min {secs:.5f}sec\n'
+
+    print(text_to_print)
+    print_to_file(text_to_print)
 
     # The keys of embedding_dict are type 'str' after being saved in JSON
     start = timer()
-    embedding_dict = {int(index): vec_graph[int(index)].tolist() for index in
-                      sorted(graph.nodes)}
+    emb_dict = {int(index): vec_graph[int(index)].tolist() for index in sorted(graph.nodes)}
     end = timer()
-    print(f'Time for embedding_dict: {(end - start):.5f}sec')
 
-    return graph, node_index, embedding_dict
+    hrs, mins, secs = get_time_from_secs(end - start)
+    text_to_print = f'Time for embedding_dict: {hrs}hr {mins}min {secs:.5f}sec\n'
+
+    print(text_to_print)
+    print_to_file(text_to_print)
+
+    return graph, node_index, emb_dict
 
 
-def save_graph_data(graph, node_index, embedding_dict, json_path):
+def save_graph_data(graph, node_index, emb_dict, json_path):
     dict_to_store = {
         'edges': list(graph.edges),
         'attributes': [
@@ -143,7 +170,7 @@ def save_graph_data(graph, node_index, embedding_dict, json_path):
              int(graph.nodes[node_id]['y'])) for
             node_id in graph.nodes],
         'node_index': node_index,
-        'embedding_dict': embedding_dict
+        'embedding_dict': emb_dict
     }
     with open(json_path, 'w') as file:
         json.dump(dict_to_store, file)
@@ -153,7 +180,12 @@ def save_graph_pairs(graph, file_path):
     start = timer()
     pair_dict = dict(nx.all_pairs_shortest_path_length(graph))
     end = timer()
-    print(f'Time for pairs: {(end - start):.5f}sec')
+
+    hrs, mins, secs = get_time_from_secs(end - start)
+    text_to_print = f'Time for pairs: {hrs}hr {mins}min {secs:.5f}sec\n'
+
+    print(text_to_print)
+    print_to_file(text_to_print)
 
     with open(file_path, 'wb') as file:
         pickle.dump(pair_dict, file)
@@ -194,6 +226,12 @@ def load_graph_data(json_path):
     return graph, node_index, embedding_dict
 
 
+def load_city_paths(json_path=r'.\data_files\city_paths.json'):
+    with open(json_path, 'r') as file:
+        cities_paths = json.load(file)
+    return cities_paths
+
+
 def get_sets(file_path):
     node_set = set()
     edge_set = set()
@@ -205,13 +243,13 @@ def get_sets(file_path):
 
             line_values = line.replace('\n', '').split('\t')
 
-            if line_values[NEW_TRAJECTORY_VALUE_LOCATION] == END_OF_TRAJECTORY:
+            if line_values[NEW_TRAJ_VALUE_LOC] == END_OF_TRAJ:
                 continue
 
-            x = line_values[CURRENT_X_LOCATION]
-            y = line_values[CURRENT_Y_LOCATION]
-            next_node_x = line_values[NEXT_X_LOCATION]
-            next_node_y = line_values[NEXT_Y_LOCATION]
+            x = line_values[CURRENT_X_LOC]
+            y = line_values[CURRENT_Y_LOC]
+            next_node_x = line_values[NEXT_X_LOC]
+            next_node_y = line_values[NEXT_Y_LOC]
             node_id = line_values[CURRENT_NODE_ID]
             next_node_id = line_values[NEXT_NODE_ID]
 
@@ -225,21 +263,21 @@ def get_sets(file_path):
 
 # Read the id and the object id from the given trajectory
 # Create the trajectory from those values and return it
-def get_trajectory_from_line(line_values):
-    object_id = line_values[TRAJECTORY_ID_LOCATION]
-    object_class_id = line_values[OBJECT_CLASS_ID_LOCATION]
+def get_traj_from_line(line_values):
+    object_id = line_values[TRAJ_ID_LOC]
+    object_class_id = line_values[OBJECT_CLASS_ID_LOC]
     return Trajectory(object_id, object_class_id)
 
 
 # Read the values for the point from the line_values list
 # Create and return a Point object
 def get_point_from_line(line_values):
-    time = line_values[TIME_LOCATION]
-    x = line_values[CURRENT_X_LOCATION]
-    y = line_values[CURRENT_Y_LOCATION]
-    speed = line_values[CURRENT_SPEED_LOCATION]
-    next_node_x = line_values[NEXT_X_LOCATION]
-    next_node_y = line_values[NEXT_Y_LOCATION]
+    time = line_values[TIME_LOC]
+    x = line_values[CURRENT_X_LOC]
+    y = line_values[CURRENT_Y_LOC]
+    speed = line_values[CURRENT_SPEED_LOC]
+    next_node_x = line_values[NEXT_X_LOC]
+    next_node_y = line_values[NEXT_Y_LOC]
     node_id = line_values[CURRENT_NODE_ID]
     next_node_id = line_values[NEXT_NODE_ID]
 
@@ -247,29 +285,26 @@ def get_point_from_line(line_values):
                  next_node_id)
 
 
-def get_trajectory_catalog(path_to_trajectory):
-    trajectory_catalog = {}
+def get_trajectory_catalog(file_path):
+    traj_catalog = {}
 
-    with open(path_to_trajectory, 'r') as file:
+    with open(file_path, 'r') as file:
         while True:
             line = file.readline()
             if not line:
                 break
 
             line_values = line.replace('\n', '').split('\t')
-            current_trajectory = get_trajectory_from_line(line_values)
+            current_traj = get_traj_from_line(line_values)
 
-            if line_values[NEW_TRAJECTORY_VALUE_LOCATION] == END_OF_TRAJECTORY:
+            if line_values[NEW_TRAJ_VALUE_LOC] == END_OF_TRAJ:
                 continue
 
             # If the trajectory is being created add it to the catalog
-            if line_values[
-                NEW_TRAJECTORY_VALUE_LOCATION] == NEW_TRAJECTORY_VALUE:
-                trajectory_catalog[current_trajectory.id] = current_trajectory
+            if line_values[NEW_TRAJ_VALUE_LOC] == NEW_TRAJ_VALUE:
+                traj_catalog[current_traj.id] = current_traj
 
             # Add a point to an existing trajectory
-            trajectory_catalog[current_trajectory.id] \
-                .add_point(
-                get_point_from_line(line_values)
-            )
-    return trajectory_catalog
+            traj_catalog[current_traj.id].add_point(get_point_from_line(line_values))
+
+    return traj_catalog
