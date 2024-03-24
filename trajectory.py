@@ -15,13 +15,16 @@ class Trajectory:
     def add_point(self, point: Point):
         self.trajectory_path.append(point)
 
+    def get_path_list(self):
+        return [str(point.node_id) for point in self.trajectory_path]
+
     def get_edge_list(self):
         if not self.edge_list:
-            self.create_edge_list()
+            self._create_edge_list()
 
         return self.edge_list
 
-    def create_edge_list(self):
+    def _create_edge_list(self):
         prev_point = self.trajectory_path[0]
         for point in self.trajectory_path[1:]:
             self.edge_list.append((prev_point.node_id, point.next_node_id))
