@@ -4,7 +4,7 @@ from numpy.linalg import norm
 from itertools import zip_longest
 
 
-def get_trajectory_vector(trajectory, embedding_dict, node_index):
+def get_traj_vec(trajectory, embedding_dict, node_index):
     trajectory_vector = []
     for point in trajectory.trajectory_path:
         point_vector = embedding_dict[str(node_index[point.node_id])]
@@ -15,36 +15,39 @@ def get_trajectory_vector(trajectory, embedding_dict, node_index):
     return trajectory_vector
 
 
-def get_cos_similarity(trajectory1, trajectory2, embedding_dict, node_index):
-    vector1 = get_trajectory_vector(trajectory1, embedding_dict, node_index)
-    vector2 = get_trajectory_vector(trajectory2, embedding_dict, node_index)
+def get_cos_sim(trajectory1, trajectory2, embedding_dict, node_index):
+    vector1 = get_traj_vec(trajectory1, embedding_dict, node_index)
+    vector2 = get_traj_vec(trajectory2, embedding_dict, node_index)
 
-    return cosine_similarity(vector1, vector2)
+    return cos_sim(vector1, vector2)
 
 
-def cosine_similarity(vector1, vector2):
+def cos_sim(vector1, vector2):
     return dot(vector1, vector2) / (norm(vector1) * norm(vector2))
 
 
-def k_cosine_similarity(main_trajectory, trajectories, embedding_dict, node_index, k):
-    similarity_list = []
+def k_cos_sim(main_traj, trajectories, emb_dict, node_index, k):
+    sim_list = []
     for trajectory in trajectories.values():
-        similarity = get_cos_similarity(main_trajectory, trajectory, embedding_dict, node_index)
-        similarity_list.append(((main_trajectory.id, trajectory.id), similarity))
-    return sorted(similarity_list, key=lambda x: x[1], reverse=True)[:k]
+        if main_traj == trajectory:
+            continue
+        similarity = get_cos_sim(main_traj, trajectory, emb_dict, node_index)
+        sim_list.append(((main_traj.id, trajectory.id), similarity))
+    return sorted(sim_list, key=lambda x: x[1], reverse=True)[:k]
 
 
-def get_distance_similarity(trajectory1, trajectory2, node_dict, pair_dist):
+def get_dist_sim(trajectory1, trajectory2, node_dict, pair_dist):
     distance12 = calc_node_dist(trajectory1, trajectory2, node_dict, pair_dist)
     distance21 = calc_node_dist(trajectory2, trajectory1, node_dict, pair_dist)
     return (distance12 + distance21) / 2
 
 
-def k_distance_similarity(main_trajectory, trajectories, node_dict, pair_dist,
-                          k):
+def k_dist_sim(main_trajectory, trajectories, node_dict, pair_dist, k):
     similarity_list = []
     for trajectory in trajectories.values():
-        similarity = get_distance_similarity(main_trajectory, trajectory, node_dict, pair_dist)
+        if main_trajectory == trajectory:
+            continue
+        similarity = get_dist_sim(main_trajectory, trajectory, node_dict, pair_dist)
         similarity_list.append(((main_trajectory.id, trajectory.id), similarity))
     return sorted(similarity_list, key=lambda x: x[1])[:k]
 
@@ -79,3 +82,58 @@ def k_similar_trajectories(trajectory: Trajectory,
             get_jaccard_similarity(trajectory, trajectory2))
 
     return sorted(weighted_list, key=lambda x: x[0], reverse=True)[:k]
+
+
+############################ BIASED ##################################################################
+
+def get_biased_traj_vec(traj, embedding_dict):
+    traj_vec = []
+    for point in traj.trajectory_path:
+        point_vector = embedding_dict[str(point.node_id)]
+        traj_vec = [a + b for a, b in zip_longest(traj_vec, point_vector, fillvalue=0)]
+
+    return traj_vec
+
+
+def get_biased_cos_sim(trajectory1, trajectory2, embedding_dict):
+    vector1 = get_biased_traj_vec(trajectory1, embedding_dict)
+    vector2 = get_biased_traj_vec(trajectory2, embedding_dict)
+
+    return cos_sim(vector1, vector2)
+
+
+def biased_k_cos_sim(main_trajectory, trajectories, embedding_dict, k):
+    similarity_list = []
+    for trajectory in trajectories.values():
+        if main_trajectory == trajectory:
+            continue
+        similarity = get_biased_cos_sim(main_trajectory, trajectory, embedding_dict)
+        similarity_list.append(((main_trajectory.id, trajectory.id), similarity))
+    return sorted(similarity_list, key=lambda x: x[1], reverse=True)[:k]
+
+
+def calc_biased_node_dist(trajectory1, trajectory2, pair_dist):
+    distance_list = []
+    for node1 in trajectory1.trajectory_path:
+        distance_list.append(min([pair_dist[node1.node_id][node2.node_id]
+                                  for node2 in trajectory2.trajectory_path]))
+
+    return sum(distance_list) / len(trajectory1.trajectory_path)
+
+
+def get_biased_dist_sim(trajectory1, trajectory2, pair_dist):
+    distance12 = calc_biased_node_dist(trajectory1, trajectory2, pair_dist)
+    distance21 = calc_biased_node_dist(trajectory2, trajectory1, pair_dist)
+    return (distance12 + distance21) / 2
+
+
+def biased_k_dist_sim(main_trajectory, trajectories, pair_dist, k):
+    similarity_list = []
+    for trajectory in trajectories.values():
+        if main_trajectory == trajectory:
+            continue
+        similarity = get_biased_dist_sim(main_trajectory, trajectory, pair_dist)
+        similarity_list.append(((main_trajectory.id, trajectory.id), similarity))
+    return sorted(similarity_list, key=lambda x: x[1])[:k]
+
+######################################################################################################
