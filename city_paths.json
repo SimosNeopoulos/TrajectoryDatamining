@@ -3,7 +3,7 @@
     "dat_file": "C:\\Trajectory_Generator\\generator_v2\\oldenburg.dat",
     "graph": ".\\graph_and_pairs\\oldenburg_graph.json",
     "pairs": ".\\graph_and_pairs\\oldenburg_pairs.pkl",
-    "log_construct": ".\\graph_and_pairs\\oldenburg_construct.txt",
+    "log_construct": ".\\constructs\\oldenburg_construct.txt",
     "64": {
       "emb": ".\\dim_64\\data_files\\oldenburg_emb.json",
       "biased_emb": ".\\dim_64\\data_files\\oldenburg_biased_emb.json",
@@ -36,7 +36,7 @@
     "dat_file": "C:\\Trajectory_Generator\\generator_v2\\san_francisco_tl_2017_06075_edges.dat",
     "graph": ".\\graph_and_pairs\\san_francisco_graph.json",
     "pairs": ".\\graph_and_pairs\\san_francisco_pairs.pkl",
-    "log_construct": ".\\graph_and_pairs\\san_francisco_construct.txt",
+    "log_construct": ".\\constructs\\san_francisco_construct.txt",
     "64": {
       "emb": ".\\dim_64\\data_files\\san_francisco_emb.json",
       "biased_emb": ".\\dim_64\\data_files\\san_francisco_biased_emb.json",
@@ -66,7 +66,7 @@
     "dat_file": "C:\\Trajectory_Generator\\generator_v2\\anchorage.dat",
     "graph": ".\\graph_and_pairs\\anchorage_graph.json",
     "pairs": ".\\graph_and_pairs\\anchorage_pairs.pkl",
-    "log_construct": ".\\graph_and_pairs\\anchorage_construct.txt",
+    "log_construct": ".\\constructs\\anchorage_construct.txt",
     "64": {
       "emb": ".\\dim_64\\data_files\\anchorage_emb.json",
       "biased_emb": ".\\dim_64\\data_files\\anchorage_biased_emb.json",
@@ -96,7 +96,7 @@
     "dat_file": "C:\\Trajectory_Generator\\generator_v2\\california.dat",
     "graph": ".\\graph_and_pairs\\california_graph.json",
     "pairs": ".\\graph_and_pairs\\california_pairs.pkl",
-    "log_construct": ".\\graph_and_pairs\\california_construct.txt",
+    "log_construct": ".\\constructs\\california_construct.txt",
     "64": {
       "emb": ".\\dim_64\\data_files\\california_emb.json",
       "biased_emb": ".\\dim_64\\data_files\\california_biased_emb.json",
@@ -126,7 +126,7 @@
     "dat_file": "C:\\Trajectory_Generator\\generator_v2\\knox_county.dat",
     "graph": ".\\graph_and_pairs\\knox_county_graph.json",
     "pairs": ".\\graph_and_pairs\\knox_county_pairs.pkl",
-    "log_construct": ".\\graph_and_pairs\\knox_county_construct.txt",
+    "log_construct": ".\\constructs\\knox_county_construct.txt",
     "64": {
       "emb": ".\\dim_64\\data_files\\knox_county_emb.json",
       "biased_emb": ".\\dim_64\\data_files\\knox_county_biased_emb.json",
@@ -156,7 +156,7 @@
     "dat_file": "C:\\Trajectory_Generator\\generator_v2\\el_dorado.dat",
     "graph": ".\\graph_and_pairs\\el_dorado_graph.json",
     "pairs": ".\\graph_and_pairs\\el_dorado_pairs.pkl",
-    "log_construct": ".\\graph_and_pairs\\el_dorado_construct.txt",
+    "log_construct": ".\\constructs\\el_dorado_construct.txt",
     "64": {
       "emb": ".\\dim_64\\data_files\\el_dorado_emb.json",
       "biased_emb": ".\\dim_64\\data_files\\el_dorado_biased_emb.json",
