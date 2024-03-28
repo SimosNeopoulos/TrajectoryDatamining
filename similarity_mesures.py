@@ -136,4 +136,23 @@ def biased_k_dist_sim(main_trajectory, trajectories, pair_dist, k):
         similarity_list.append(((main_trajectory.id, trajectory.id), similarity))
     return sorted(similarity_list, key=lambda x: x[1])[:k]
 
+
 ######################################################################################################
+
+################################### Traj2Vec #########################################################
+
+def get_traj_cos_sim(traj_id_1: str, traj_id_2: str, emb_dict: dict):
+    vector1 = emb_dict[traj_id_1]
+    vector2 = emb_dict[traj_id_2]
+
+    return cos_sim(vector1, vector2)
+
+
+def traj_k_cos_sim(main_traj, trajectories, emb_dict, k):
+    similarity_list = []
+    for trajectory in trajectories.values():
+        if main_traj == trajectory:
+            continue
+        similarity = get_traj_cos_sim(str(main_traj.id), str(trajectory.id), emb_dict)
+        similarity_list.append(((main_traj.id, trajectory.id), similarity))
+    return sorted(similarity_list, key=lambda x: x[1], reverse=True)[:k]
