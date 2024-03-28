@@ -17,4 +17,4 @@ class BiasedNode2Vec:
         model = Word2Vec(sentences=walks, vector_size=self.dimensions, window=5, min_count=1, sg=1, workers=4)
         node_vectors = model.wv
         graph_nodes = self.graph.nodes
-        return {node: node_vectors[str(node)].tolist() for node in graph_nodes}
+        return {str(node): node_vectors[str(node)].tolist() for node in graph_nodes if str(node) in node_vectors}
