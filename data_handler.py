@@ -6,12 +6,13 @@ import log_printer as log_pr
 from timeit import default_timer as timer
 
 import networkx as nx
-from karateclub.node_embedding.neighbourhood.node2vec import Node2Vec
-from node_2_vec_biased import BiasedNode2Vec as BN2V
+from node2vec import Node2Vec as N2V
+from biased_node_2_vec import BiasedNode2Vec as BN2V
+from biased_traj2vec import BiasedTraj2Vec as BT2V
+from traj2vec import Traj2Vec
 
 from point import Point
 from trajectory import Trajectory
-
 
 # Information on how to read a line from the trajectory file
 NEW_TRAJ_VALUE = '0'
@@ -112,8 +113,101 @@ def get_time_from_secs(secs):
 
 ############################ GRAPH DATA ################################
 
+def load_graph(graph_path):
+    with open(graph_path, 'r') as file:
+        graph_data = json.load(file)
 
-def create_graph_and_index(file_path):
+    graph = nx.DiGraph()
+
+    # Add nodes with integer indices and attributes
+    for node_data in graph_data['attributes']:
+        node_id, x, y = node_data
+        graph.add_node(node_id, x=int(x), y=int(y))
+
+    for edge_data in graph_data['edges']:
+        index1, index2 = edge_data
+        graph.add_edge(index1, index2)
+
+    return graph
+
+
+def save_graph(graph, json_path):
+    dict_to_store = {
+        'edges': list(graph.edges),
+        'attributes': [
+            (node_id,
+             int(graph.nodes[node_id]['x']),
+             int(graph.nodes[node_id]['y'])
+             ) for node_id in graph.nodes],
+    }
+    with open(json_path, 'w') as file:
+        json.dump(dict_to_store, file)
+
+
+def create_graph(traj_path, log_path):
+    start = timer()
+
+    graph = nx.DiGraph()
+    node_set, edge_set = get_sets(traj_path)
+
+    for node_info in node_set:
+        node_id, x, y = node_info
+        graph.add_node(int(node_id), x=int(x), y=int(y))
+
+    for edge_info in edge_set:
+        node_id1, node_id2 = edge_info
+        graph.add_edge(int(node_id1), int(node_id2))
+
+    end = timer()
+
+    print(graph.__str__())
+    log_pr.print_to_file(graph.__str__() + '\n', log_path)
+
+    hrs, mins, secs = get_time_from_secs(end - start)
+    text_to_print = f'Time to create graph: {hrs}hr {mins}min {secs:.5f}sec\n'
+    print(text_to_print)
+    log_pr.print_to_file(text_to_print, log_path)
+    return graph
+
+
+def create_n2v_emb(graph, dims, log_path):
+    start = timer()
+    node2vec = N2V(graph, dimensions=dims)
+    vec_graph = node2vec.fit()
+    vec_graph = vec_graph.wv
+    end = timer()
+
+    hrs, mins, secs = get_time_from_secs(end - start)
+    text_to_print = f'Time for Node2Vec embedding: {hrs}hr {mins}min {secs:.5f}sec\n'
+
+    print(text_to_print)
+    log_pr.print_to_file(text_to_print, log_path)
+
+    # The keys of embedding_dict are type 'str' after being saved in JSON
+    start = timer()
+    emb_dict = {str(index): vec_graph[str(index)].tolist() for index in sorted(graph.nodes) if str(index) in vec_graph}
+    end = timer()
+
+    hrs, mins, secs = get_time_from_secs(end - start)
+    text_to_print = f'Time for embedding_dict: {hrs}hr {mins}min {secs:.5f}sec\n'
+
+    print(text_to_print)
+    log_pr.print_to_file(text_to_print, log_path)
+    return emb_dict
+
+
+def save_emb(emb, json_path):
+    with open(json_path, 'w') as file:
+        json.dump(emb, file)
+
+
+def load_emb(emb_path):
+    with open(emb_path, 'r') as file:
+        emb_dict = json.load(file)
+    return emb_dict
+
+
+def create_graph_and_index(file_path, log_path):
     start = timer()
 
     graph = nx.DiGraph()
@@ -132,35 +226,35 @@ def create_graph_and_index(file_path):
     end = timer()
 
     print(graph.__str__())
-    log_pr.print_to_file(graph.__str__() + '\n')
+    log_pr.print_to_file(graph.__str__() + '\n', log_path)
 
     hrs, mins, secs = get_time_from_secs(end - start)
     text_to_print = f'Time to create graph: {hrs}hr {mins}min {secs:.5f}sec\n'
     print(text_to_print)
-    log_pr.print_to_file(text_to_print)
+    log_pr.print_to_file(text_to_print, log_path)
 
     start = timer()
-    node2vec = Node2Vec()
-    node2vec.fit(graph)
-    vec_graph = node2vec.get_embedding()
+    node2vec = N2V(graph)
+    vec_graph = node2vec.fit()
+    vec_graph = vec_graph.wv
     end = timer()
 
     hrs, mins, secs = get_time_from_secs(end - start)
     text_to_print = f'Time for Node2Vec embedding: {hrs}hr {mins}min {secs:.5f}sec\n'
 
     print(text_to_print)
-    log_pr.print_to_file(text_to_print)
+    log_pr.print_to_file(text_to_print, log_path)
 
     # The keys of embedding_dict are type 'str' after being saved in JSON
     start = timer()
-    emb_dict = {int(index): vec_graph[int(index)].tolist() for index in sorted(graph.nodes)}
+    emb_dict = {str(index): vec_graph[str(index)].tolist() for index in sorted(graph.nodes) if str(index) in vec_graph}
     end = timer()
 
     hrs, mins, secs = get_time_from_secs(end - start)
     text_to_print = f'Time for embedding_dict: {hrs}hr {mins}min {secs:.5f}sec\n'
 
     print(text_to_print)
-    log_pr.print_to_file(text_to_print)
+    log_pr.print_to_file(text_to_print, log_path)
 
     return graph, node_index, emb_dict
 
@@ -187,38 +281,31 @@ def load_graph_data(json_path):
 
     # Add nodes with integer indices and attributes
     for node_data in graph_data['attributes']:
-        index, x, y = node_data
-        graph.add_node(index, x=int(x), y=int(y))
+        node_id, x, y = node_data
+        graph.add_node(node_id, x=int(x), y=int(y))
 
     for edge_data in graph_data['edges']:
         index1, index2 = edge_data
         graph.add_edge(index1, index2)
 
-    node_index = {int(key): value for key, value in
-                  graph_data['node_index'].items()}
+    node_index = {int(key): value for key, value in graph_data['node_index'].items()}
 
     embedding_dict = graph_data['embedding_dict']
-    # for index, (node_id, x, y) in enumerate(graph_data['attributes']):
-    #     graph.add_node(index, x=int(x), y=int(y), original_node_id=node_id)
-    #
-    # # Add edges with integer indices
-    # edges = [(index1, index2) for index1, index2 in graph_data['edges']]
-    # graph.add_edges_from(edges)
 
     return graph, node_index, embedding_dict
 
 
 ################################ BIASED DATA ####################################
 
-def create_graph_and_biased_emb(file_path, traj_dict, log_file=f'./log_files/biased_construct_data.txt'):
+def create_graph_and_biased_emb(traj_path, traj_dict, log_file=f'./dim_128/log_files/biased_construct_data.txt'):
     start = timer()
 
     graph = nx.DiGraph()
-    node_set, edge_set = get_sets(file_path)
+    node_set, edge_set = get_sets(traj_path)
 
     for node_info in node_set:
         node_id, x, y = node_info
-        graph.add_node(node_id, x=x, y=y)
+        graph.add_node(int(node_id), x=int(x), y=int(y))
 
     for edge_info in edge_set:
         node_id1, node_id2 = edge_info
@@ -248,43 +335,110 @@ def create_graph_and_biased_emb(file_path, traj_dict, log_file=f'./log_files/bia
     return graph, vec_emb
 
 
-def save_biased_graph_data(graph, vec_emb, json_path):
-    dict_to_store = {
-        'edges': list(graph.edges),
-        # 'attributes': [
-        #     (node_id, int(graph.nodes[node_id]['x']),
-        #      int(graph.nodes[node_id]['y'])) for
-        #     node_id in graph.nodes],
-        'embedding_dict': vec_emb
-    }
-    with open(json_path, 'w') as file:
-        json.dump(dict_to_store, file)
+def create_biased_emb(graph, traj_dict, log_file):
+    start = timer()
+    b_node2vec = BN2V(graph)
+    biased_emb = b_node2vec.fit(traj_dict)
+    end = timer()
+
+    hrs, mins, secs = get_time_from_secs(end - start)
+    text_to_print = f'Time for Biased Node2Vec embedding: {hrs}hr {mins}min {secs:.5f}sec\n'
+
+    print(text_to_print)
+    log_pr.print_to_file(text_to_print, log_file)
+
+    return biased_emb
 
 
-def load_biased_graph_data(json_path):
-    with open(json_path, 'r') as file:
+def load_biased_graph_data(graph_path, emb_path):
+    with open(graph_path, 'r') as file:
         graph_data = json.load(file)
 
     graph = nx.DiGraph()
 
     # Add nodes with integer indices and attributes
     for node_data in graph_data['attributes']:
-        index, x, y = node_data
-        graph.add_node(index, x=int(x), y=int(y))
+        node_id, x, y = node_data
+        graph.add_node(node_id, x=int(x), y=int(y))
 
     for edge_data in graph_data['edges']:
         index1, index2 = edge_data
         graph.add_edge(index1, index2)
 
-    embedding_dict = graph_data['embedding_dict']
+    del graph_data
 
-    return graph, embedding_dict
+    with open(emb_path, 'r') as file:
+        emb_dict = json.load(file)
+
+    return graph, emb_dict
 
 
 #################################################################################
 
+################################ Traj2Vec #######################################
 
-def save_graph_pairs(graph, file_path, log_path):
+def create_traj_emb(traj_dict, graph, log_file):
+    start = timer()
+    node2vec = N2V(graph)
+    traj2vec = Traj2Vec(node2vec.walks)
+    traj2vec.train_model()
+    traj_emb = traj2vec.get_traj_emb(traj_dict)
+    end = timer()
+
+    hrs, mins, secs = get_time_from_secs(end - start)
+    text_to_print = f'Time for Traj2Vec embedding: {hrs}hr {mins}min {secs:.5f}sec\n'
+
+    print(text_to_print)
+    log_pr.print_to_file(text_to_print, log_file)
+
+    return traj_emb
+
+
+def load_traj_data(graph_path, emb_path):
+    with open(graph_path, 'r') as file:
+        graph_data = json.load(file)
+
+    graph = nx.DiGraph()
+
+    # Add nodes with integer indices and attributes
+    for node_data in graph_data['attributes']:
+        node_id, x, y = node_data
+        graph.add_node(node_id, x=int(x), y=int(y))
+
+    for edge_data in graph_data['edges']:
+        index1, index2 = edge_data
+        graph.add_edge(index1, index2)
+
+    del graph_data
+    with open(emb_path, 'r') as file:
+        traj_emb = json.load(file)
+    return graph_path, traj_emb
+
+
+#################################################################################
+
+############################# Biased Traj2Vec ###################################
+def create_biased_traj_emb(traj_dict, log_file):
+    start = timer()
+    biased_traj2vec = BT2V(traj_dict)
+    biased_traj2vec.train_model()
+    traj_emb = biased_traj2vec.get_traj_emb(traj_dict)
+    end = timer()
+
+    hrs, mins, secs = get_time_from_secs(end - start)
+    text_to_print = f'Time for Biased Traj2Vec embedding: {hrs}hr {mins}min {secs:.5f}sec\n'
+
+    print(text_to_print)
+    log_pr.print_to_file(text_to_print, log_file)
+
+    return traj_emb
+
+
+#################################################################################
+
+############################ PAIRS ##############################################
+
+def save_graph_pairs(graph, pairs_path, log_path):
     start = timer()
     pair_dict = dict(nx.all_pairs_shortest_path_length(graph))
     end = timer()
@@ -295,7 +449,7 @@ def save_graph_pairs(graph, file_path, log_path):
     print(text_to_print)
     log_pr.print_to_file(text_to_print, log_path)
 
-    with open(file_path, 'wb') as file:
+    with open(pairs_path, 'wb') as file:
         pickle.dump(pair_dict, file)
 
 
@@ -308,7 +462,7 @@ def load_graph_pairs(file_path):
 ############################################################################
 
 
-def load_city_paths(json_path=r'.\data_files\city_paths.json'):
+def load_city_paths(json_path=r'.\city_paths.json'):
     with open(json_path, 'r') as file:
         cities_paths = json.load(file)
     return cities_paths
