@@ -1,0 +1,40 @@
+San Francisco:
+
+DiGraph with 12599 nodes and 41686 edges
+
+Time to create graph: 0hr 0min 16.66301sec
+
+Time for pairs: 0hr 2min 45.66203sec
+
+Current Dimensions: 64
+
+Time for Node2Vec embedding: 0hr 2min 22.71216sec
+
+Time for embedding_dict: 0hr 0min 0.60883sec
+
+Time for Biased Node2Vec embedding: 0hr 0min 36.44156sec
+
+Time for Traj2Vec embedding: 0hr 1min 6.18730sec
+
+Current Dimensions: 128
+
+Time for Node2Vec embedding: 0hr 2min 34.50266sec
+
+Time for embedding_dict: 0hr 0min 0.06929sec
+
+Time for Biased Node2Vec embedding: 0hr 0min 40.60547sec
+
+Time for Traj2Vec embedding: 0hr 1min 9.38532sec
+
+Current Dimensions: 256
+
+Time for Node2Vec embedding: 0hr 3min 9.34098sec
+
+Time for embedding_dict: 0hr 0min 0.10049sec
+
+Time for Biased Node2Vec embedding: 0hr 0min 51.67774sec
+
+Time for Traj2Vec embedding: 0hr 1min 15.01081sec
+
+*************************************************************************
+

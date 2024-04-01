@@ -1,0 +1,40 @@
+Anchorage:
+
+DiGraph with 18364 nodes and 47421 edges
+
+Time to create graph: 0hr 0min 12.03962sec
+
+Time for pairs: 0hr 5min 49.63800sec
+
+Current Dimensions: 64
+
+Time for Node2Vec embedding: 0hr 3min 24.97113sec
+
+Time for embedding_dict: 0hr 0min 0.07619sec
+
+Time for Biased Node2Vec embedding: 0hr 0min 26.73415sec
+
+Time for Traj2Vec embedding: 0hr 1min 17.41220sec
+
+Current Dimensions: 128
+
+Time for Node2Vec embedding: 0hr 3min 44.53803sec
+
+Time for embedding_dict: 0hr 0min 0.09512sec
+
+Time for Biased Node2Vec embedding: 0hr 0min 30.09795sec
+
+Time for Traj2Vec embedding: 0hr 1min 19.91493sec
+
+Current Dimensions: 256
+
+Time for Node2Vec embedding: 0hr 5min 14.66763sec
+
+Time for embedding_dict: 0hr 0min 0.14456sec
+
+Time for Biased Node2Vec embedding: 0hr 0min 38.02236sec
+
+Time for Traj2Vec embedding: 0hr 1min 23.20518sec
+
+*************************************************************************
+

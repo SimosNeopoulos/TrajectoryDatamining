@@ -1,0 +1,40 @@
+Knox County:
+
+DiGraph with 22845 nodes and 56947 edges
+
+Time to create graph: 0hr 0min 12.67175sec
+
+Time for pairs: 0hr 9min 42.61989sec
+
+Current Dimensions: 64
+
+Time for Node2Vec embedding: 0hr 4min 26.88067sec
+
+Time for embedding_dict: 0hr 0min 0.09853sec
+
+Time for Biased Node2Vec embedding: 0hr 0min 30.06725sec
+
+Time for Traj2Vec embedding: 0hr 1min 31.98465sec
+
+Current Dimensions: 128
+
+Time for Node2Vec embedding: 0hr 4min 55.15598sec
+
+Time for embedding_dict: 0hr 0min 0.13695sec
+
+Time for Biased Node2Vec embedding: 0hr 0min 33.90110sec
+
+Time for Traj2Vec embedding: 0hr 1min 34.13759sec
+
+Current Dimensions: 256
+
+Time for Node2Vec embedding: 0hr 7min 12.36897sec
+
+Time for embedding_dict: 0hr 0min 0.19003sec
+
+Time for Biased Node2Vec embedding: 0hr 0min 43.77057sec
+
+Time for Traj2Vec embedding: 0hr 1min 38.57760sec
+
+*************************************************************************
+

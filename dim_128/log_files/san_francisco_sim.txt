@@ -1,0 +1,61 @@
+San Francisco:
+
+DiGraph with 12599 nodes and 41686 edges
+
+Number of trajectories: 135015
+Min length of trajectories: 1
+Avg length of trajectories: 78.11657223271489
+Max length of trajectories: 1010
+
+Iteration: 1. Time of iteration: 0hr 6min 9.77324secs. Distance Similarity time: 0hr 3min 53.29137secs. Cosine Similarity time: 0hr 6min 9.35056secs. Trajectory of iteration: 54669. k=10 5/10, k=100 66/100, k=1000 485/1000.
+Iteration: 2. Time of iteration: 0hr 5min 27.87851secs. Distance Similarity time: 0hr 4min 20.69063secs. Cosine Similarity time: 0hr 5min 27.67106secs. Trajectory of iteration: 130997. k=10 8/10, k=100 77/100, k=1000 493/1000.
+Iteration: 3. Time of iteration: 0hr 7min 36.60280secs. Distance Similarity time: 0hr 12min 10.49152secs. Cosine Similarity time: 0hr 7min 36.34141secs. Trajectory of iteration: 79725. k=10 6/10, k=100 77/100, k=1000 795/1000.
+Iteration: 4. Time of iteration: 0hr 4min 38.50088secs. Distance Similarity time: 0hr 2min 7.84453secs. Cosine Similarity time: 0hr 4min 38.35293secs. Trajectory of iteration: 78876. k=10 8/10, k=100 80/100, k=1000 515/1000.
+Iteration: 5. Time of iteration: 0hr 6min 29.88705secs. Distance Similarity time: 0hr 8min 35.90514secs. Cosine Similarity time: 0hr 6min 29.68066secs. Trajectory of iteration: 128735. k=10 8/10, k=100 83/100, k=1000 695/1000.
+Iteration: 6. Time of iteration: 0hr 8min 34.28189secs. Distance Similarity time: 0hr 15min 23.04111secs. Cosine Similarity time: 0hr 8min 34.04586secs. Trajectory of iteration: 62465. k=10 9/10, k=100 91/100, k=1000 570/1000.
+Iteration: 7. Time of iteration: 0hr 6min 44.87971secs. Distance Similarity time: 0hr 9min 9.49973secs. Cosine Similarity time: 0hr 6min 44.65475secs. Trajectory of iteration: 21770. k=10 9/10, k=100 49/100, k=1000 469/1000.
+Iteration: 8. Time of iteration: 0hr 6min 18.90414secs. Distance Similarity time: 0hr 7min 46.41896secs. Cosine Similarity time: 0hr 6min 18.71751secs. Trajectory of iteration: 82967. k=10 7/10, k=100 81/100, k=1000 706/1000.
+Iteration: 9. Time of iteration: 0hr 8min 22.30404secs. Distance Similarity time: 0hr 15min 6.02940secs. Cosine Similarity time: 0hr 8min 22.08283secs. Trajectory of iteration: 22118. k=10 7/10, k=100 70/100, k=1000 763/1000.
+Iteration: 10. Time of iteration: 0hr 7min 48.92743secs. Distance Similarity time: 0hr 13min 31.03105secs. Cosine Similarity time: 0hr 7min 48.73653secs. Trajectory of iteration: 51782. k=10 9/10, k=100 90/100, k=1000 843/1000.
+Iteration: 11. Time of iteration: 0hr 7min 49.61783secs. Distance Similarity time: 0hr 12min 55.34192secs. Cosine Similarity time: 0hr 7min 49.38609secs. Trajectory of iteration: 53875. k=10 7/10, k=100 74/100, k=1000 809/1000.
+Iteration: 12. Time of iteration: 0hr 5min 32.86585secs. Distance Similarity time: 0hr 6min 30.06714secs. Cosine Similarity time: 0hr 5min 32.85588secs. Trajectory of iteration: 83887. k=10 9/10, k=100 70/100, k=1000 397/1000.
+Iteration: 13. Time of iteration: 0hr 6min 7.01623secs. Distance Similarity time: 0hr 12min 32.32090secs. Cosine Similarity time: 0hr 6min 7.01416secs. Trajectory of iteration: 58135. k=10 6/10, k=100 89/100, k=1000 851/1000.
+Iteration: 14. Time of iteration: 0hr 4min 48.72125secs. Distance Similarity time: 0hr 8min 1.75233secs. Cosine Similarity time: 0hr 4min 48.70931secs. Trajectory of iteration: 82705. k=10 8/10, k=100 82/100, k=1000 775/1000.
+Iteration: 15. Time of iteration: 0hr 4min 50.19448secs. Distance Similarity time: 0hr 8min 9.28188secs. Cosine Similarity time: 0hr 4min 50.19245secs. Trajectory of iteration: 5429. k=10 8/10, k=100 65/100, k=1000 752/1000.
+Iteration: 16. Time of iteration: 0hr 4min 12.88410secs. Distance Similarity time: 0hr 5min 30.63586secs. Cosine Similarity time: 0hr 4min 12.88220secs. Trajectory of iteration: 26552. k=10 8/10, k=100 76/100, k=1000 572/1000.
+Iteration: 17. Time of iteration: 0hr 7min 15.98243secs. Distance Similarity time: 0hr 17min 29.62581secs. Cosine Similarity time: 0hr 7min 15.98041secs. Trajectory of iteration: 117341. k=10 7/10, k=100 90/100, k=1000 775/1000.
+Iteration: 18. Time of iteration: 0hr 5min 26.33564secs. Distance Similarity time: 0hr 10min 27.88690secs. Cosine Similarity time: 0hr 5min 26.33372secs. Trajectory of iteration: 130892. k=10 9/10, k=100 85/100, k=1000 713/1000.
+Iteration: 19. Time of iteration: 0hr 4min 15.00725secs. Distance Similarity time: 0hr 5min 37.06710secs. Cosine Similarity time: 0hr 4min 15.00076secs. Trajectory of iteration: 89189. k=10 7/10, k=100 66/100, k=1000 538/1000.
+Iteration: 20. Time of iteration: 0hr 5min 34.57799secs. Distance Similarity time: 0hr 10min 42.46482secs. Cosine Similarity time: 0hr 5min 34.57055secs. Trajectory of iteration: 6366. k=10 10/10, k=100 83/100, k=1000 730/1000.
+
+For k=10:
+Min similarity: 5/10
+Avg similarity: 7.75/10
+Max similarity: 10/10
+
+For k=100:
+Min similarity: 49/100
+Avg similarity: 77.2/100
+Max similarity: 91/100
+
+For k=1000:
+Min similarity: 397/1000
+Avg similarity: 662.3/1000
+Max similarity: 851/1000
+
+Distance Similarity time:
+Min time: 0hr 2min 7.84453secs.
+Avg time: 0hr 9min 30.03440secs.
+Max time: 0hr 17min 29.62581secs.
+Total time: 3hr 10min 0.68809secs.
+
+Cosine Similarity time:
+Min time: 0hr 4min 12.88220secs.
+Avg time: 0hr 6min 12.12798secs.
+Max time: 0hr 8min 34.04586secs.
+Total time: 2hr 4min 2.55962secs.
+
+Time for all iterations: 2hr 4min 5.35071sec
+
+*******************************************************************
+

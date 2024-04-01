@@ -1,0 +1,40 @@
+El Dorado:
+
+DiGraph with 27294 nodes and 69057 edges
+
+Time to create graph: 0hr 0min 12.95023sec
+
+Time for pairs: 0hr 14min 1.57349sec
+
+Current Dimensions: 64
+
+Time for Node2Vec embedding: 0hr 5min 27.07945sec
+
+Time for embedding_dict: 0hr 0min 0.12578sec
+
+Time for Biased Node2Vec embedding: 0hr 0min 31.87644sec
+
+Time for Traj2Vec embedding: 0hr 1min 49.70379sec
+
+Current Dimensions: 128
+
+Time for Node2Vec embedding: 0hr 6min 44.89559sec
+
+Time for embedding_dict: 0hr 0min 0.16708sec
+
+Time for Biased Node2Vec embedding: 0hr 0min 36.16377sec
+
+Time for Traj2Vec embedding: 0hr 1min 55.86698sec
+
+Current Dimensions: 256
+
+Time for Node2Vec embedding: 0hr 9min 24.28302sec
+
+Time for embedding_dict: 0hr 0min 0.24290sec
+
+Time for Biased Node2Vec embedding: 0hr 0min 48.39704sec
+
+Time for Traj2Vec embedding: 0hr 1min 58.35420sec
+
+*************************************************************************
+
