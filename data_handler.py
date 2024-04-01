@@ -335,9 +335,9 @@ def create_graph_and_biased_emb(traj_path, traj_dict, log_file=f'./dim_128/log_f
     return graph, vec_emb
 
 
-def create_biased_emb(graph, traj_dict, log_file):
+def create_biased_emb(graph, dim, traj_dict, log_file):
     start = timer()
-    b_node2vec = BN2V(graph)
+    b_node2vec = BN2V(graph, dim)
     biased_emb = b_node2vec.fit(traj_dict)
     end = timer()
 
@@ -377,10 +377,10 @@ def load_biased_graph_data(graph_path, emb_path):
 
 ################################ Traj2Vec #######################################
 
-def create_traj_emb(traj_dict, graph, log_file):
+def create_traj_emb(traj_dict, graph, dim, log_file):
     start = timer()
     node2vec = N2V(graph)
-    traj2vec = Traj2Vec(node2vec.walks)
+    traj2vec = Traj2Vec(node2vec.walks, vector_size=dim)
     traj2vec.train_model()
     traj_emb = traj2vec.get_traj_emb(traj_dict)
     end = timer()
