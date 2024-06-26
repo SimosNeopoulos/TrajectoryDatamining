@@ -1,185 +1,552 @@
 {
   "oldenburg": {
-    "dat_file": "C:\\Trajectory_Generator\\generator_v2\\oldenburg.dat",
+    "trajNum": [200020, 280020],
+    "trajLen": [42.4426, 45.3847],
+    "dat_file": ".\\traj_files\\oldenburg.dat",
+    "dat_file2": ".\\traj_files\\oldenburg2.dat",
     "graph": ".\\graph_and_pairs\\oldenburg_graph.json",
+    "graph2": ".\\graph_and_pairs2\\oldenburg_graph2.json",
     "pairs": ".\\graph_and_pairs\\oldenburg_pairs.pkl",
+    "pairs2": ".\\graph_and_pairs2\\oldenburg_pairs2.pkl",
     "log_construct": ".\\constructs\\oldenburg_construct.txt",
+    "pagerank": ".\\graph_and_pairs\\oldenburg_pagerank.pkl",
+    "pagerank2": ".\\graph_and_pairs2\\oldenburg_pagerank2.pkl",
     "64": {
+      "node2vec": {
+        "time": [83, 107],
+        "k10": [7.55, 6],
+        "k100": [81.9, 71.05],
+        "k1000": [722.85, 668.2]
+      },
+      "node2vecBiased": {
+        "time": [82, 105.446],
+        "k10": [7.35, 5.5],
+        "k100": [78.4, 70.35],
+        "k1000": [710.55, 692.3]
+      },
+      "traj2vec": {
+        "time": [6.004, 7.545],
+        "k10": [0.85, 0.75],
+        "k100": [15.85, 14.55],
+        "k1000": [229.95, 240.1]
+      },
       "emb": ".\\dim_64\\data_files\\oldenburg_emb.json",
+      "emb2": ".\\dim_64\\data_files2\\oldenburg_emb.json",
       "biased_emb": ".\\dim_64\\data_files\\oldenburg_biased_emb.json",
+      "biased_emb2": ".\\dim_64\\data_files2\\oldenburg_biased_emb.json",
       "traj_emb": ".\\dim_64\\data_files\\oldenburg_traj_emb.json",
+      "traj_emb2": ".\\dim_64\\data_files2\\oldenburg_traj_emb.json",
       "biased_traj_emb": ".\\dim_64\\data_files\\oldenburg_biased_traj_emb.json",
       "log_sim": ".\\dim_64\\log_files\\oldenburg_sim.txt",
+      "log_sim2": ".\\dim_64\\log_files2\\oldenburg_sim.txt",
       "log_biased_sim": ".\\dim_64\\log_files\\oldenburg_biased_sim.txt",
-      "log_traj_sim": ".\\dim_64\\log_files\\oldenburg_traj_sim.txt"
+      "log_biased_sim2": ".\\dim_64\\log_files2\\oldenburg_biased_sim.txt",
+      "log_traj_sim": ".\\dim_64\\log_files\\oldenburg_traj_sim.txt",
+      "log_traj_sim2": ".\\dim_64\\log_files2\\oldenburg_traj_sim.txt"
     },
     "128": {
+      "node2vec": {
+        "time": [166.822, 197.785],
+        "k10": [7.85, 6.6],
+        "k100": [84.05, 73.35],
+        "k1000": [734.15, 701.25]
+      },
+      "node2vecBiased": {
+        "time": [149.017, 197.344],
+        "k10": [7.35, 6.6],
+        "k100": [79.6, 73.35],
+        "k1000": [719.95, 701.25]
+      },
+      "traj2vec": {
+        "time": [10.726, 11.741],
+        "k10": [1.4, 0.8],
+        "k100": [24.4, 16.9],
+        "k1000": [291, 263.2]
+      },
       "emb": ".\\dim_128\\data_files\\oldenburg_emb.json",
+      "emb2": ".\\dim_128\\data_files2\\oldenburg_emb.json",
       "biased_emb": ".\\dim_128\\data_files\\oldenburg_biased_emb.json",
+      "biased_emb2": ".\\dim_128\\data_files2\\oldenburg_biased_emb.json",
       "traj_emb": ".\\dim_128\\data_files\\oldenburg_traj_emb.json",
+      "traj_emb2": ".\\dim_128\\data_files2\\oldenburg_traj_emb.json",
       "biased_traj_emb": ".\\dim_128\\data_files\\oldenburg_biased_traj_emb.json",
       "log_sim": ".\\dim_128\\log_files\\oldenburg_sim.txt",
+      "log_sim2": ".\\dim_128\\log_files2\\oldenburg_sim.txt",
+      "pagerank_log_sim": ".\\dim_128\\log_files\\oldenburg_sim_pagerank.txt",
+      "pagerank_log_sim2": ".\\dim_128\\log_files2\\oldenburg_sim_pagerank.txt",
       "log_biased_sim": ".\\dim_128\\log_files\\oldenburg_biased_sim.txt",
-      "log_traj_sim": ".\\dim_128\\log_files\\oldenburg_traj_sim.txt"
+      "log_biased_sim2": ".\\dim_128\\log_files2\\oldenburg_biased_sim.txt",
+      "pagerank_log_biased_sim": ".\\dim_128\\log_files\\oldenburg_biased_pagerank.txt",
+      "pagerank_log_biased_sim2": ".\\dim_128\\log_files2\\oldenburg_biased_pagerank.txt",
+      "log_traj_sim": ".\\dim_128\\log_files\\oldenburg_traj_sim.txt",
+      "log_traj_sim2": ".\\dim_128\\log_files2\\oldenburg_traj_sim.txt"
     },
     "256": {
+      "node2vec": {
+        "time": [266.378, 372.041],
+        "k10": [8, 6.55],
+        "k100": [84.7, 73.25],
+        "k1000": [729.3, 703.8]
+      },
+      "node2vecBiased": {
+        "time": [259.059, 369.029],
+        "k10": [7.75, 5.85],
+        "k100": [78.25, 70.55],
+        "k1000": [715.3, 672.9]
+      },
+      "traj2vec": {
+        "time": [15.074, 20.236],
+        "k10": [1.8, 0.8],
+        "k100": [30.7, 16.95],
+        "k1000": [367.15, 280.2]
+      },
       "emb": ".\\dim_256\\data_files\\oldenburg_emb.json",
+      "emb2": ".\\dim_256\\data_files2\\oldenburg_emb.json",
       "biased_emb": ".\\dim_256\\data_files\\oldenburg_biased_emb.json",
+      "biased_emb2": ".\\dim_256\\data_files2\\oldenburg_biased_emb.json",
       "traj_emb": ".\\dim_256\\data_files\\oldenburg_traj_emb.json",
+      "traj_emb2": ".\\dim_256\\data_files2\\oldenburg_traj_emb.json",
       "biased_traj_emb": ".\\dim_256\\data_files\\oldenburg_biased_traj_emb.json",
       "log_sim": ".\\dim_256\\log_files\\oldenburg_sim.txt",
+      "log_sim2": ".\\dim_256\\log_files2\\oldenburg_sim.txt",
       "log_biased_sim": ".\\dim_256\\log_files\\oldenburg_biased_sim.txt",
-      "log_traj_sim": ".\\dim_256\\log_files\\oldenburg_traj_sim.txt"
+      "log_biased_sim2": ".\\dim_256\\log_files2\\oldenburg_biased_sim.txt",
+      "log_traj_sim": ".\\dim_256\\log_files\\oldenburg_traj_sim.txt",
+      "log_traj_sim2": ".\\dim_256\\log_files2\\oldenburg_traj_sim.txt"
     }
   },
   "san_francisco": {
-    "dat_file": "C:\\Trajectory_Generator\\generator_v2\\san_francisco_tl_2017_06075_edges.dat",
+    "trajNum": [135015, 280020],
+    "trajLen": [78.1165, 86.2687],
+    "dat_file": ".\\traj_files\\san_francisco_tl_2017_06075_edges.dat",
+    "dat_file2": ".\\traj_files\\san_francisco_tl_2017_06075_edges2.dat",
     "graph": ".\\graph_and_pairs\\san_francisco_graph.json",
+    "graph2": ".\\graph_and_pairs2\\san_francisco_graph2.json",
     "pairs": ".\\graph_and_pairs\\san_francisco_pairs.pkl",
+    "pairs2": ".\\graph_and_pairs2\\san_francisco_pairs2.pkl",
     "log_construct": ".\\constructs\\san_francisco_construct.txt",
     "64": {
+      "node2vec": {
+        "time": [268.181, 344.163],
+        "k10": [7.6, 6.15],
+        "k100": [75.3, 68.25],
+        "k1000": [649.25, 617.25]
+      },
+      "node2vecBiased": {
+        "time": [166.228, 346.487],
+        "k10": [7.55, 6.55],
+        "k100": [73.4, 65.85],
+        "k1000": [638.3, 594.55]
+      },
+      "traj2vec": {
+        "time": [6.657, 12.872],
+        "k10": [0.8, 0.85],
+        "k100": [19.45, 18.3],
+        "k1000": [316.5, 298.75]
+      },
       "emb": ".\\dim_64\\data_files\\san_francisco_emb.json",
+      "emb2": ".\\dim_64\\data_files2\\san_francisco_emb.json",
       "biased_emb": ".\\dim_64\\data_files\\san_francisco_biased_emb.json",
+      "biased_emb2": ".\\dim_64\\data_files2\\san_francisco_biased_emb.json",
       "traj_emb": ".\\dim_64\\data_files\\san_francisco_traj_emb.json",
+      "traj_emb2": ".\\dim_64\\data_files2\\san_francisco_traj_emb.json",
       "log_sim": ".\\dim_64\\log_files\\san_francisco_sim.txt",
+      "log_sim2": ".\\dim_64\\log_files2\\san_francisco_sim.txt",
       "log_biased_sim": ".\\dim_64\\log_files\\san_francisco_biased_sim.txt",
-      "log_traj_sim": ".\\dim_64\\log_files\\san_francisco_traj_sim.txt"
+      "log_biased_sim2": ".\\dim_64\\log_files2\\san_francisco_biased_sim.txt",
+      "log_traj_sim": ".\\dim_64\\log_files\\san_francisco_traj_sim.txt",
+      "log_traj_sim2": ".\\dim_64\\log_files2\\san_francisco_traj_sim.txt"
     },
     "128": {
+      "node2vec": {
+        "time": [552.002, 1219.834],
+        "k10": [7.75, 7.15],
+        "k100": [77.2,  74.85],
+        "k1000": [662.3, 647]
+      },
+      "node2vecBiased": {
+        "time": [301.191, 670.266],
+        "k10": [7.65, 6.35],
+        "k100": [73.85, 67.5],
+        "k1000": [661.8, 581.65]
+      },
+      "traj2vec": {
+        "time": [9.947, 20.141],
+        "k10": [1.15, 0.45],
+        "k100": [28.8, 17.85],
+        "k1000": [383, 273.9]
+      },
       "emb": ".\\dim_256\\data_files\\san_francisco_emb.json",
+      "emb2": ".\\dim_256\\data_files2\\san_francisco_emb.json",
       "biased_emb": ".\\dim_128\\data_files\\san_francisco_biased_emb.json",
+      "biased_emb2": ".\\dim_128\\data_files2\\san_francisco_biased_emb.json",
       "traj_emb": ".\\dim_128\\data_files\\san_francisco_traj_emb.json",
+      "traj_emb2": ".\\dim_128\\data_files2\\san_francisco_traj_emb.json",
       "log_sim": ".\\dim_128\\log_files\\san_francisco_sim.txt",
+      "log_sim2": ".\\dim_128\\log_files2\\san_francisco_sim.txt",
       "log_biased_sim": ".\\dim_128\\log_files\\san_francisco_biased_sim.txt",
-      "log_traj_sim": ".\\dim_128\\log_files\\san_francisco_traj_sim.txt"
+      "log_biased_sim2": ".\\dim_128\\log_files2\\san_francisco_biased_sim.txt",
+      "log_traj_sim": ".\\dim_128\\log_files\\san_francisco_traj_sim.txt",
+      "log_traj_sim2": ".\\dim_128\\log_files2\\san_francisco_traj_sim.txt"
     },
     "256": {
+      "node2vec": {
+        "time": [557.750, 1237.520],
+        "k10": [7.75, 7.15],
+        "k100": [77.2, 74.85],
+        "k1000": [662.3, 647]
+      },
+      "node2vecBiased": {
+        "time": [558.242, 1238.631],
+        "k10": [7.65, 6.4],
+        "k100": [73.95, 66.45],
+        "k1000": [654.35, 577.7]
+      },
+      "traj2vec": {
+        "time": [17.260, 34.569],
+        "k10": [2.05, 1.15],
+        "k100": [24.5, 22.05],
+        "k1000": [359.6, 311.05]
+      },
       "emb": ".\\dim_256\\data_files\\san_francisco_emb.json",
+      "emb2": ".\\dim_256\\data_files2\\san_francisco_emb.json",
       "biased_emb": ".\\dim_256\\data_files\\san_francisco_biased_emb.json",
+      "biased_emb2": ".\\dim_256\\data_files2\\san_francisco_biased_emb.json",
       "traj_emb": ".\\dim_256\\data_files\\san_francisco_traj_emb.json",
+      "traj_emb2": ".\\dim_256\\data_files2\\san_francisco_traj_emb.json",
       "log_sim": ".\\dim_256\\log_files\\san_francisco_sim.txt",
+      "log_sim2": ".\\dim_256\\log_files2\\san_francisco_sim.txt",
       "log_biased_sim": ".\\dim_256\\log_files\\san_francisco_biased_sim.txt",
-      "log_traj_sim": ".\\dim_256\\log_files\\san_francisco_traj_sim.txt"
+      "log_biased_sim2": ".\\dim_256\\log_files2\\san_francisco_biased_sim.txt",
+      "log_traj_sim": ".\\dim_256\\log_files\\san_francisco_traj_sim.txt",
+      "log_traj_sim2": ".\\dim_256\\log_files2\\san_francisco_traj_sim.txt"
     }
   },
   "anchorage": {
-    "dat_file": "C:\\Trajectory_Generator\\generator_v2\\anchorage.dat",
+    "trajNum": [100020, 280020],
+    "trajLen": [75.103, 82.3146],
+    "dat_file": ".\\traj_files\\anchorage.dat",
+    "dat_file2": ".\\traj_files\\anchorage2.dat",
     "graph": ".\\graph_and_pairs\\anchorage_graph.json",
+    "graph2": ".\\graph_and_pairs2\\anchorage_graph2.json",
     "pairs": ".\\graph_and_pairs\\anchorage_pairs.pkl",
+    "pairs2": ".\\graph_and_pairs2\\anchorage_pairs2.pkl",
     "log_construct": ".\\constructs\\anchorage_construct.txt",
     "64": {
+      "node2vec": {
+        "time": [109.675, 338.936],
+        "k10": [7.85, 6.95],
+        "k100": [69.8, 66.25],
+        "k1000": [513.2, 582]
+      },
+      "node2vecBiased": {
+        "time": [112.471, 333.112],
+        "k10": [7.65, 6.9],
+        "k100": [72.55, 65.2],
+        "k1000": [561.75, 580.7]
+      },
+      "traj2vec": {
+        "time": [4.539, 12.979],
+        "k10": [2.15, 0.7],
+        "k100": [21.55, 16.6],
+        "k1000": [222.75, 262.2]
+      },
       "emb": ".\\dim_64\\data_files\\anchorage_emb.json",
+      "emb2": ".\\dim_64\\data_files2\\anchorage_emb.json",
       "biased_emb": ".\\dim_64\\data_files\\anchorage_biased_emb.json",
+      "biased_emb2": ".\\dim_64\\data_files2\\anchorage_biased_emb.json",
       "traj_emb": ".\\dim_64\\data_files\\anchorage_traj_emb.json",
+      "traj_emb2": ".\\dim_64\\data_files2\\anchorage_traj_emb.json",
       "log_sim": ".\\dim_64\\log_files\\anchorage_sim.txt",
+      "log_sim2": ".\\dim_64\\log_files2\\anchorage_sim.txt",
       "log_biased_sim": ".\\dim_64\\log_files\\anchorage_biased_sim.txt",
-      "log_traj_sim": ".\\dim_64\\log_files\\anchorage_traj_sim.txt"
+      "log_biased_sim2": ".\\dim_64\\log_files2\\anchorage_biased_sim.txt",
+      "log_traj_sim": ".\\dim_64\\log_files\\anchorage_traj_sim.txt",
+      "log_traj_sim2": ".\\dim_64\\log_files2\\anchorage_traj_sim.txt"
     },
     "128": {
+      "node2vec": {
+        "time": [214.519, 641.759],
+        "k10": [7.7, 6.9],
+        "k100": [67.95, 69.45],
+        "k1000": [526.2, 605.45]
+      },
+      "node2vecBiased": {
+        "time": [223.862, 710.469],
+        "k10": [7.5, 6.9],
+        "k100": [71.8, 66.9],
+        "k1000": [575.6, 577.25]
+      },
+      "traj2vec": {
+        "time": [7.281, 20.500],
+        "k10": [1.45, 1.25],
+        "k100": [22.1, 22.3],
+        "k1000": [273.35, 298.15]
+      },
       "emb": ".\\dim_128\\data_files\\anchorage_emb.json",
+      "emb2": ".\\dim_128\\data_files2\\anchorage_emb.json",
       "biased_emb": ".\\dim_128\\data_files\\anchorage_biased_emb.json",
+      "biased_emb2": ".\\dim_128\\data_files2\\anchorage_biased_emb.json",
       "traj_emb": ".\\dim_128\\data_files\\anchorage_traj_emb.json",
+      "traj_emb2": ".\\dim_128\\data_files2\\anchorage_traj_emb.json",
       "log_sim": ".\\dim_128\\log_files\\anchorage_sim.txt",
+      "log_sim2": ".\\dim_128\\log_files2\\anchorage_sim.txt",
       "log_biased_sim": ".\\dim_128\\log_files\\anchorage_biased_sim.txt",
-      "log_traj_sim": ".\\dim_128\\log_files\\anchorage_traj_sim.txt"
+      "log_biased_sim2": ".\\dim_128\\log_files2\\anchorage_biased_sim.txt",
+      "log_traj_sim": ".\\dim_128\\log_files\\anchorage_traj_sim.txt",
+      "log_traj_sim2": ".\\dim_128\\log_files2\\anchorage_traj_sim.txt"
     },
     "256": {
+      "node2vec": {
+        "time": [405.532, 1215.950],
+        "k10": [7.9, 6.95],
+        "k100": [71.9, 71.15],
+        "k1000": [539.75, 616.9]
+      },
+      "node2vecBiased": {
+        "time": [394.797, 1213.138],
+        "k10": [7.7, 6.75],
+        "k100": [71.8, 65.35],
+        "k1000": [564.9, 575.3]
+      },
+      "traj2vec": {
+        "time": [12.544, 34.402],
+        "k10": [2.15, 0.9],
+        "k100": [26.85, 21.95],
+        "k1000": [324.25, 315.85]
+      },
       "emb": ".\\dim_256\\data_files\\anchorage_emb.json",
+      "emb2": ".\\dim_256\\data_files2\\anchorage_emb.json",
       "biased_emb": ".\\dim_256\\data_files\\anchorage_biased_emb.json",
+      "biased_emb2": ".\\dim_256\\data_files2\\anchorage_biased_emb.json",
       "traj_emb": ".\\dim_256\\data_files\\anchorage_traj_emb.json",
+      "traj_emb2": ".\\dim_256\\data_files2\\anchorage_traj_emb.json",
       "log_sim": ".\\dim_256\\log_files\\anchorage_sim.txt",
+      "log_sim2": ".\\dim_256\\log_files2\\anchorage_sim.txt",
       "log_biased_sim": ".\\dim_256\\log_files\\anchorage_biased_sim.txt",
-      "log_traj_sim": ".\\dim_256\\log_files\\anchorage_traj_sim.txt"
-    }
-  },
-  "california": {
-    "dat_file": "C:\\Trajectory_Generator\\generator_v2\\california.dat",
-    "graph": ".\\graph_and_pairs\\california_graph.json",
-    "pairs": ".\\graph_and_pairs\\california_pairs.pkl",
-    "log_construct": ".\\constructs\\california_construct.txt",
-    "64": {
-      "emb": ".\\dim_64\\data_files\\california_emb.json",
-      "biased_emb": ".\\dim_64\\data_files\\california_biased_emb.json",
-      "traj_emb": ".\\dim_64\\data_files\\california_traj_emb.json",
-      "log_sim": ".\\dim_64\\log_files\\california_sim.txt",
-      "log_biased_sim": ".\\dim_64\\log_files\\california_biased_sim.txt",
-      "log_traj_sim": ".\\dim_64\\log_files\\california_traj_sim.txt"
-    },
-    "128": {
-      "emb": ".\\dim_128\\data_files\\california_emb.json",
-      "biased_emb": ".\\dim_128\\data_files\\california_biased_emb.json",
-      "traj_emb": ".\\dim_128\\data_files\\california_traj_emb.json",
-      "log_sim": ".\\dim_128\\log_files\\california_sim.txt",
-      "log_biased_sim": ".\\dim_128\\log_files\\california_biased_sim.txt",
-      "log_traj_sim": ".\\dim_128\\log_files\\california_traj_sim.txt"
-    },
-    "256": {
-      "emb": ".\\dim_256\\data_files\\california_emb.json",
-      "biased_emb": ".\\dim_256\\data_files\\california_biased_emb.json",
-      "traj_emb": ".\\dim_256\\data_files\\california_traj_emb.json",
-      "log_sim": ".\\dim_256\\log_files\\california_sim.txt",
-      "log_biased_sim": ".\\dim_256\\log_files\\california_biased_sim.txt",
-      "log_traj_sim": ".\\dim_256\\log_files\\california_traj_sim.txt"
+      "log_biased_sim2": ".\\dim_256\\log_files2\\anchorage_biased_sim.txt",
+      "log_traj_sim": ".\\dim_256\\log_files\\anchorage_traj_sim.txt",
+      "log_traj_sim2": ".\\dim_256\\log_files2\\anchorage_traj_sim.txt"
     }
   },
   "knox_county": {
-    "dat_file": "C:\\Trajectory_Generator\\generator_v2\\knox_county.dat",
+    "trajNum": [100020, 280020],
+    "trajLen": [77.6642, 84.8262],
+    "dat_file": ".\\traj_files\\knox_county.dat",
+    "dat_file2": ".\\traj_files\\knox_county2.dat",
     "graph": ".\\graph_and_pairs\\knox_county_graph.json",
+    "graph2": ".\\graph_and_pairs2\\knox_county_graph2.json",
     "pairs": ".\\graph_and_pairs\\knox_county_pairs.pkl",
+    "pairs2": ".\\graph_and_pairs2\\knox_county_pairs2.pkl",
     "log_construct": ".\\constructs\\knox_county_construct.txt",
     "64": {
+      "node2vec": {
+        "time": [99.794, 359.333],
+        "k10": [7.45, 6.35],
+        "k100": [73.95, 62.7],
+        "k1000": [514.85, 475]
+      },
+      "node2vecBiased": {
+        "time": [99.248, 359.647],
+        "k10": [6.75, 6.4],
+        "k100": [75.55, 61.4],
+        "k1000": [557, 502.7]
+      },
+      "traj2vec": {
+        "time": [4.585, 12.780],
+        "k10": [1.5, 0.55],
+        "k100": [20.2, 12.7],
+        "k1000": [205.61, 59.6]
+      },
       "emb": ".\\dim_64\\data_files\\knox_county_emb.json",
+      "emb2": ".\\dim_64\\data_files2\\knox_county_emb.json",
       "biased_emb": ".\\dim_64\\data_files\\knox_county_biased_emb.json",
+      "biased_emb2": ".\\dim_64\\data_files2\\knox_county_biased_emb.json",
       "traj_emb": ".\\dim_64\\data_files\\knox_county_traj_emb.json",
+      "traj_emb2": ".\\dim_64\\data_files2\\knox_county_traj_emb.json",
       "log_sim": ".\\dim_64\\log_files\\knox_county_sim.txt",
+      "log_sim2": ".\\dim_64\\log_files2\\knox_county_sim.txt",
       "log_biased_sim": ".\\dim_64\\log_files\\knox_county_biased_sim.txt",
-      "log_traj_sim": ".\\dim_64\\log_files\\knox_county_traj_sim.txt"
+      "log_biased_sim2": ".\\dim_64\\log_files2\\knox_county_biased_sim.txt",
+      "log_traj_sim": ".\\dim_64\\log_files\\knox_county_traj_sim.txt",
+      "log_traj_sim2": ".\\dim_64\\log_files2\\knox_county_traj_sim.txt"
     },
     "128": {
+      "node2vec": {
+        "time": [188.967, 136.810],
+        "k10": [7.25, 6.7],
+        "k100": [74.05, 64.55],
+        "k1000": [483, 484.5]
+      },
+      "node2vecBiased": {
+        "time": [193.624, 672.247],
+        "k10": [6.65, 6.45],
+        "k100": [76.55, 65.55],
+        "k1000": [559.1, 522]
+      },
+      "traj2vec": {
+        "time": [7.177, 20.257],
+        "k10": [1.4, 0.6],
+        "k100": [28.75, 15.35],
+        "k1000": [319.3, 202.4]
+      },
       "emb": ".\\dim_128\\data_files\\knox_county_emb.json",
+      "emb2": ".\\dim_128\\data_files2\\knox_county_emb.json",
       "biased_emb": ".\\dim_128\\data_files\\knox_county_biased_emb.json",
+      "biased_emb2": ".\\dim_128\\data_files2\\knox_county_biased_emb.json",
       "traj_emb": ".\\dim_128\\data_files\\knox_county_traj_emb.json",
+      "traj_emb2": ".\\dim_128\\data_files2\\knox_county_traj_emb.json",
       "log_sim": ".\\dim_128\\log_files\\knox_county_sim.txt",
+      "log_sim2": ".\\dim_128\\log_files2\\knox_county_sim.txt",
       "log_biased_sim": ".\\dim_128\\log_files\\knox_county_biased_sim.txt",
-      "log_traj_sim": ".\\dim_128\\log_files\\knox_county_traj_sim.txt"
+      "log_biased_sim2": ".\\dim_128\\log_files2\\knox_county_biased_sim.txt",
+      "log_traj_sim": ".\\dim_128\\log_files\\knox_county_traj_sim.txt",
+      "log_traj_sim2": ".\\dim_128\\log_files2\\knox_county_traj_sim.txt"
     },
     "256": {
+      "node2vec": {
+        "time": [354.705, 1250.472],
+        "k10": [7.45, 6.65],
+        "k100": [76, 65.65],
+        "k1000": [509.05, 491.6]
+      },
+      "node2vecBiased": {
+        "time": [353.853, 1255.197],
+        "k10": [6.75, 6.25],
+        "k100": [76.55, 65.45],
+        "k1000": [562.55, 520.4]
+      },
+      "traj2vec": {
+        "time": [12.536, 34.651],
+        "k10": [1.65, 0.9],
+        "k100": [28.8, 22.15],
+        "k1000": [298, 283.15]
+      },
       "emb": ".\\dim_256\\data_files\\knox_county_emb.json",
+      "emb2": ".\\dim_256\\data_files2\\knox_county_emb.json",
       "biased_emb": ".\\dim_256\\data_files\\knox_county_biased_emb.json",
+      "biased_emb2": ".\\dim_256\\data_files2\\knox_county_biased_emb.json",
       "traj_emb": ".\\dim_256\\data_files\\knox_county_traj_emb.json",
+      "traj_emb2": ".\\dim_256\\data_files2\\knox_county_traj_emb.json",
       "log_sim": ".\\dim_256\\log_files\\knox_county_sim.txt",
+      "log_sim2": ".\\dim_256\\log_files2\\knox_county_sim.txt",
       "log_biased_sim": ".\\dim_256\\log_files\\knox_county_biased_sim.txt",
-      "log_traj_sim": ".\\dim_256\\log_files\\knox_county_traj_sim.txt"
+      "log_biased_sim2": ".\\dim_256\\log_files2\\knox_county_biased_sim.txt",
+      "log_traj_sim": ".\\dim_256\\log_files\\knox_county_traj_sim.txt",
+      "log_traj_sim2": ".\\dim_256\\log_files2\\knox_county_traj_sim.txt"
     }
   },
   "el_dorado": {
-    "dat_file": "C:\\Trajectory_Generator\\generator_v2\\el_dorado.dat",
+    "trajNum": [100020, 280020],
+    "trajLen": [77.5291, 81.8406],
+    "dat_file": ".\\traj_files\\el_dorado.dat",
+    "dat_file2": ".\\traj_files\\el_dorado2.dat",
     "graph": ".\\graph_and_pairs\\el_dorado_graph.json",
+    "graph2": ".\\graph_and_pairs2\\el_dorado_graph.json",
     "pairs": ".\\graph_and_pairs\\el_dorado_pairs.pkl",
+    "pairs2": ".\\graph_and_pairs2\\el_dorado_pairs.pkl",
     "log_construct": ".\\constructs\\el_dorado_construct.txt",
+    "pagerank": ".\\graph_and_pairs\\el_dorado_pagerank.pkl",
+    "pagerank2": ".\\graph_and_pairs2\\el_dorado_pagerank2.pkl",
     "64": {
+      "node2vec": {
+        "time": [124.538, 430.925],
+        "k10": [7.65, 6.05],
+        "k100": [67.35, 59.85],
+        "k1000": [425.4, 517.95]
+      },
+      "node2vecBiased": {
+        "time": [122.119, 359.647],
+        "k10": [7.25, 5.95],
+        "k100": [69.2, 58.95],
+        "k1000": [563.25, 502.5]
+      },
+      "traj2vec": {
+        "time": [4.487, 12.847],
+        "k10": [1.55, 1],
+        "k100": [18.25, 15.2],
+        "k1000": [196.45, 209.35]
+      },
       "emb": ".\\dim_64\\data_files\\el_dorado_emb.json",
+      "emb2": ".\\dim_64\\data_files2\\el_dorado_emb.json",
       "biased_emb": ".\\dim_64\\data_files\\el_dorado_biased_emb.json",
+      "biased_emb2": ".\\dim_64\\data_files2\\el_dorado_biased_emb.json",
       "traj_emb": ".\\dim_64\\data_files\\el_dorado_traj_emb.json",
+      "traj_emb2": ".\\dim_64\\data_files2\\el_dorado_traj_emb.json",
       "log_sim": ".\\dim_64\\log_files\\el_dorado_sim.txt",
+      "log_sim2": ".\\dim_64\\log_files2\\el_dorado_sim.txt",
       "log_biased_sim": ".\\dim_64\\log_files\\el_dorado_biased_sim.txt",
-      "log_traj_sim": ".\\dim_64\\log_files\\el_dorado_traj_sim.txt"
+      "log_biased_sim2": ".\\dim_64\\log_files2\\el_dorado_biased_sim.txt",
+      "log_traj_sim": ".\\dim_64\\log_files\\el_dorado_traj_sim.txt",
+      "log_traj_sim2": ".\\dim_64\\log_files2\\el_dorado_traj_sim.txt"
     },
     "128": {
+      "node2vec": {
+        "time": [232.750, 752.125],
+        "k10": [7.9, 5.85],
+        "k100": [66.3, 60.95],
+        "k1000": [422.8, 521.3]
+      },
+      "node2vecBiased": {
+        "time": [230.724, 758.997],
+        "k10": [7.8, 6.1],
+        "k100": [71.4, 60.3],
+        "k1000": [567.25, 523.2]
+      },
+      "traj2vec": {
+        "time": [7.138, 20.510],
+        "k10": [2.25, 1.6],
+        "k100": [30.45, 23.65],
+        "k1000": [261.55, 279.65]
+      },
       "emb": ".\\dim_128\\data_files\\el_dorado_emb.json",
+      "emb2": ".\\dim_128\\data_files2\\el_dorado_emb.json",
       "biased_emb": ".\\dim_128\\data_files\\el_dorado_biased_emb.json",
+      "biased_emb2": ".\\dim_128\\data_files2\\el_dorado_biased_emb.json",
       "traj_emb": ".\\dim_128\\data_files\\el_dorado_traj_emb.json",
+      "traj_emb2": ".\\dim_128\\data_files2\\el_dorado_traj_emb.json",
       "log_sim": ".\\dim_128\\log_files\\el_dorado_sim.txt",
+      "log_sim2": ".\\dim_128\\log_files2\\el_dorado_sim.txt",
+      "pagerank_log_sim": ".\\dim_128\\log_files\\el_dorado_sim_pagerank.txt",
+      "pagerank_log_sim2": ".\\dim_128\\log_files2\\el_dorado_sim_pagerank.txt",
       "log_biased_sim": ".\\dim_128\\log_files\\el_dorado_biased_sim.txt",
-      "log_traj_sim": ".\\dim_128\\log_files\\el_dorado_traj_sim.txt"
+      "log_biased_sim2": ".\\dim_128\\log_files2\\el_dorado_biased_sim.txt",
+      "pagerank_log_biased_sim": ".\\dim_128\\log_files\\el_dorado_biased_sim_pagerank.txt",
+      "pagerank_log_biased_sim2": ".\\dim_128\\log_files2\\el_dorado_biased_pagerank.txt",
+      "log_traj_sim": ".\\dim_128\\log_files\\el_dorado_traj_sim.txt",
+      "log_traj_sim2": ".\\dim_128\\log_files2\\el_dorado_traj_sim.txt"
     },
     "256": {
+      "node2vec": {
+        "time": [430.298, 1382.596],
+        "k10": [8.05, 6.2],
+        "k100": [68.4, 62.65],
+        "k1000": [437.95, 522.5]
+      },
+      "node2vecBiased": {
+        "time": [392.534, 1409.344],
+        "k10": [7.65, 5.9],
+        "k100": [71.5, 59.6],
+        "k1000": [569, 533.7]
+      },
+      "traj2vec": {
+        "time": [12.366, 34.534],
+        "k10": [2.7, 1.85],
+        "k100": [33.25, 24.6],
+        "k1000": [283.75, 305.25]
+      },
       "emb": ".\\dim_256\\data_files\\el_dorado_emb.json",
+      "emb2": ".\\dim_256\\data_files2\\el_dorado_emb.json",
       "biased_emb": ".\\dim_256\\data_files\\el_dorado_biased_emb.json",
+      "biased_emb2": ".\\dim_256\\data_files2\\el_dorado_biased_emb.json",
       "traj_emb": ".\\dim_256\\data_files\\el_dorado_traj_emb.json",
+      "traj_emb2": ".\\dim_256\\data_files2\\el_dorado_traj_emb.json",
       "log_sim": ".\\dim_256\\log_files\\el_dorado_sim.txt",
+      "log_sim2": ".\\dim_256\\log_files2\\el_dorado_sim.txt",
       "log_biased_sim": ".\\dim_256\\log_files\\el_dorado_biased_sim.txt",
-      "log_traj_sim": ".\\dim_256\\log_files\\el_dorado_traj_sim.txt"
+      "log_biased_sim2": ".\\dim_256\\log_files2\\el_dorado_biased_sim.txt",
+      "log_traj_sim": ".\\dim_256\\log_files\\el_dorado_traj_sim.txt",
+      "log_traj_sim2": ".\\dim_256\\log_files2\\el_dorado_traj_sim.txt"
     }
   }
 }

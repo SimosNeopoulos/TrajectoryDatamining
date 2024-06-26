@@ -4,10 +4,10 @@ from numpy.linalg import norm
 from itertools import zip_longest
 
 
-def cos_sim_mesure(main_traj: Trajectory, traj_dict: dict, emb_dict: dict, k: int, method: str):
+def cos_sim_mesure(main_traj: Trajectory, traj_dict: dict, emb_dict: dict, k: int, method: str, pagerank: dict):
     match method:
         case 'node_emb':
-            return k_cos_sim(main_traj, traj_dict, emb_dict, k)
+            return k_cos_sim(main_traj, traj_dict, emb_dict, pagerank, k)
         case 'traj_emb':
             return traj_k_cos_sim(main_traj, traj_dict, emb_dict, k)
         case _:
@@ -36,14 +36,14 @@ def cos_sim(vector1, vector2):
     return dot(vector1, vector2) / (norm(vector1) * norm(vector2))
 
 
-# def k_cos_sim(main_traj, trajectories, emb_dict, node_index, k):
+# def k_cos_sim(main_traj, trajectories, emb_dict, node_index, topk):
 #     sim_list = []
 #     for trajectory in trajectories.values():
 #         if main_traj == trajectory:
 #             continue
 #         similarity = get_cos_sim(main_traj, trajectory, emb_dict, node_index)
 #         sim_list.append(((main_traj.id, trajectory.id), similarity))
-#     return sorted(sim_list, key=lambda x: x[1], reverse=True)[:k]
+#     return sorted(sim_list, key=lambda x: x[1], reverse=True)[:topk]
 
 
 def get_dist_sim(trajectory1, trajectory2, pair_dist):
@@ -65,10 +65,16 @@ def k_dist_sim(main_trajectory, trajectories, pair_dist, k):
 def calc_node_dist(trajectory1, trajectory2, pair_dist):
     distance_list = []
     for node1 in trajectory1.trajectory_path:
-        for node2 in trajectory2.trajectory_path:
-            if node1.node_id not in pair_dist or node2.node_id not in pair_dist[node1.node_id]:
-                continue
-            distance_list.append(min([pair_dist[node1.node_id][node2.node_id]]))
+        try:
+            paths = min([pair_dist[node1.node_id][node2.node_id]
+                         for node2 in trajectory2.trajectory_path
+                         if node2.node_id in pair_dist[node1.node_id]
+                         ])
+        except ValueError:
+            paths = None
+
+        if paths:
+            distance_list.append(paths)
     if len(distance_list) == 0:
         return 100000000
     return sum(distance_list) / len(trajectory1.trajectory_path)
@@ -99,28 +105,32 @@ def k_similar_trajectories(trajectory: Trajectory,
 
 ############################ BIASED ##################################################################
 
-def get_biased_traj_vec(traj, embedding_dict):
+def get_traj_vec(traj, embedding_dict, pagerank):
     traj_vec = []
     for point in traj.trajectory_path:
         point_vector = embedding_dict[str(point.node_id)]
-        traj_vec = [a + b for a, b in zip_longest(traj_vec, point_vector, fillvalue=0)]
+        if not pagerank:
+            traj_vec = [a + b for a, b in zip_longest(traj_vec, point_vector, fillvalue=0)]
+        else:
+            pagerank_value = pagerank[point.node_id]
+            traj_vec = [a + b * pagerank_value for a, b in zip_longest(traj_vec, point_vector, fillvalue=0)]
 
     return traj_vec
 
 
-def get_cos_sim(trajectory1, trajectory2, embedding_dict):
-    vector1 = get_biased_traj_vec(trajectory1, embedding_dict)
-    vector2 = get_biased_traj_vec(trajectory2, embedding_dict)
+def get_cos_sim(trajectory1, trajectory2, embedding_dict, pagerank):
+    vector1 = get_traj_vec(trajectory1, embedding_dict, pagerank)
+    vector2 = get_traj_vec(trajectory2, embedding_dict, pagerank)
 
     return cos_sim(vector1, vector2)
 
 
-def k_cos_sim(main_trajectory, trajectories, embedding_dict, k):
+def k_cos_sim(main_trajectory, trajectories, embedding_dict, pagerank, k):
     similarity_list = []
     for trajectory in trajectories.values():
         if main_trajectory == trajectory:
             continue
-        similarity = get_cos_sim(main_trajectory, trajectory, embedding_dict)
+        similarity = get_cos_sim(main_trajectory, trajectory, embedding_dict, pagerank)
         similarity_list.append(((main_trajectory.id, trajectory.id), similarity))
     return sorted(similarity_list, key=lambda x: x[1], reverse=True)[:k]
 

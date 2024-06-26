@@ -38,3 +38,43 @@ Time for Traj2Vec embedding: 0hr 1min 38.57760sec
 
 *************************************************************************
 
+Knox County:
+
+DiGraph with 22845 nodes and 57463 edges
+
+Time to create graph: 0hr 0min 43.44292sec
+
+Time for pairs: 0hr 10min 59.42126sec
+
+Current Dimensions: 64
+
+Time for Node2Vec embedding: 0hr 4min 57.76574sec
+
+Time for embedding_dict: 0hr 0min 0.11667sec
+
+Time for Biased Node2Vec embedding: 0hr 4min 37.29983sec
+
+Time for Traj2Vec embedding: 0hr 4min 14.46442sec
+
+Current Dimensions: 128
+
+Time for Node2Vec embedding: 0hr 5min 43.27178sec
+
+Time for embedding_dict: 0hr 0min 0.15402sec
+
+Time for Biased Node2Vec embedding: 0hr 2min 33.44094sec
+
+Time for Traj2Vec embedding: 0hr 5min 6.12285sec
+
+Current Dimensions: 256
+
+Time for Node2Vec embedding: 0hr 8min 17.06283sec
+
+Time for embedding_dict: 0hr 0min 0.19828sec
+
+Time for Biased Node2Vec embedding: 0hr 4min 29.95198sec
+
+Time for Traj2Vec embedding: 0hr 6min 16.61429sec
+
+*************************************************************************
+

@@ -1,86 +1,150 @@
-from node2vec import Node2Vec as n2v
-from karateclub.node_embedding.neighbourhood.node2vec import Node2Vec
 import data_handler as dh
-import similarity_mesures as sm
+import log_printer as log_pr
 import random as rand
 from timeit import default_timer as timer
-from main import get_city_name
-import networkx as nx
+import similarity_mesures as sm
+import multiprocessing as mp
+from main import testing_out, get_mock_dist_data
+
+cities = ['oldenburg', 'el_dorado']  # 'california', 'san_francisco', 'anchorage', 'knox_county', 
+
+dims = ['64', '128', '256']
 
 
-def n2vec(graph, city):
-    start = timer()
-    node2vec = n2v(graph)
-    model = node2vec.fit()
-    end = timer()
+def get_rand_trajectories(catalog_num):
+    rand_trajectories = []
+    for _ in range(20):
+        while True:
+            rand_traj = rand.randint(0, catalog_num)
+            if rand_traj not in rand_trajectories:
+                break
+        rand_trajectories.append(rand_traj)
+    return rand_trajectories
 
-    hrs, mins, secs = dh.get_time_from_secs(end - start)
-    dh.print_to_file(get_city_name(city) + ':\n')
-    text_to_print = f'Time for Node2Vec embedding: {hrs}hr {mins}min {secs:.5f}sec\n'
-    dh.print_to_file(text_to_print, f'./data_files/new_construct_data.txt')
-    print(text_to_print)
+
+def process_dist_sim(traj_dict, pair_dict, half, k, results_queue):
+    dist_data_half = []
+    for traj_id in half:
+        log_pr.print_to_file(f'Start of {traj_id}', testing_out)
+        start = timer()
+        sim = sm.k_dist_sim(traj_dict[traj_id], traj_dict, pair_dict, k)
+        end = timer()
+        log_pr.print_to_file(f'End of {traj_id} time: {dh.get_time_from_secs(end - start)}', testing_out)
+        dist_data_half.append((sim, end - start))
+    results_queue.put(dist_data_half)
+
+
+def get_dist_data(traj_dict: dict, rand_trajectories: list, pair_dict: dict, topk: int):
+    dist_data = []
+    for traj_id in rand_trajectories:
+        print(f'Start of {traj_id}')
+        start = timer()
+        sim = sm.k_dist_sim(traj_dict[traj_id], traj_dict, pair_dict, topk)
+        end = timer()
+        print(f'End of {traj_id} time: {dh.get_time_from_secs(end - start)}')
+        dist_data.append((sim, end - start))
+
+    return dist_data
+
+
+def run_print_sim(emb_dict, dist_data, traj_dict, rand_trajectories, sim_method, pagerank, log_file):
+    log_pr.print_to_file('Inside run_print_sim', testing_out)
+    log_pr.print_sim(emb_dict=emb_dict,
+                     dist_data=dist_data,
+                     traj_dict=traj_dict,
+                     rand_traj=rand_trajectories,
+                     sim_method=sim_method,
+                     log_file=log_file,
+                     error_log_file=testing_out,
+                     pagerank=pagerank)
+
+
+# def run_print_sim_test(emb_dict, dist_data, traj_dict, rand_trajectories, sim_method, log_file):
+#     log_pr.print_sim_test(emb_dict=emb_dict,
+#                           dist_data=dist_data,
+#                           traj_dict=traj_dict,
+#                           rand_traj=rand_trajectories,
+#                           sim_method=sim_method,
+#                           log_file=log_file)
 
 
 def main():
+    log_pr.print_to_file('Inside main', testing_out)
     city_paths = dh.load_city_paths()
-    cities = ['oldenburg', 'san_francisco', 'anchorage', 'el_dorado', 'knox_county']
+
     for city in cities:
-        graph, _, _ = dh.load_graph_data(city_paths[city]['data'])
-        n2vec(graph, city)
+        log_pr.print_to_file(f'City {city} iteration started', testing_out)
+        print(f'City {city} iteration started')
+        graph = dh.load_graph(city_paths[city]['graph'])
+        pagerank = dh.load_pagerank(city_paths[city]['pagerank'])
+        log_pr.print_to_file(f'Graph {city} loaded', testing_out)
+        print(f'Graph {city} loaded')
+        graph_str = graph.__str__()
+        del graph
 
-    # print(cities[:2])
-    # graph, node_index, emb_dict = dh.load_graph_data(city_paths[cities[4]]['data'])
-    # pair_dict = dh.load_graph_pairs(city_paths[cities[4]]['pairs'])
-    # print(18691 in node_index.values())
-    # print(18691 in node_index.keys())
-    # print(18691 in pair_dict.keys())
-    # print(18691 in emb_dict.keys())
+        pair_dict = dh.load_graph_pairs(city_paths[city]['pairs'])
+        log_pr.print_to_file(f'Pairs {city} loaded', testing_out)
+        print(f'Pairs {city} loaded')
+        traj_dict = dh.get_trajectory_catalog(city_paths[city]['dat_file'])
+        log_pr.print_to_file(f'Trajectories {city} loaded', testing_out)
+        print(f'Trajectories {city} loaded')
+        traj_num = len(traj_dict)
+        rand_trajectories = get_rand_trajectories(traj_num)
 
-    # graph = nx.Graph()
-    #
-    # for i in range(1, 10):
-    #     graph.add_edge(i - 1, i)
-    #
-    # node2vec = Node2Vec(walk_length=5)
-    # node2vec.fit(graph)
-    # node_vectors = node2vec.get_embedding()
-    # node_arr = []
-    # for i in range(10):
-    #     print(i, sm.cosine_similarity(list(node_vectors[0]), list(node_vectors[i])))
-    #     node_arr.append((i, sm.cosine_similarity(list(node_vectors[0]), list(node_vectors[i]))))
-    #
-    # node2vec = n2v(graph, walk_length=5)
-    # model = node2vec.fit()
-    # node_vectors = model.wv
-    # print()
-    #
-    # for i in range(10):
-    #     print(i, sm.cosine_similarity(list(node_vectors[0]), list(node_vectors[i])))
+        log_pr.print_to_file(f'{city} inside dist_data', testing_out)
+        start = timer()
+        dist_data = get_dist_data(traj_dict, rand_trajectories, pair_dict, 1000)
+        end = timer()
+        log_pr.print_to_file(f'Time for dist data: {dh.get_time_from_secs(end - start)}', testing_out)
+
+        del pair_dict
+        dim = dims[1]
+        # for dim in dims:
+        # log_pr.print_to_file(f'Dimension {dim} iteration started', testing_out)
+        processes = []
+        ########################################## Normal n2v ####################################################
+        node_emb = dh.load_emb(city_paths[city][dim]['emb'])
+        log_pr.print_graph_name(graph_str, city, city_paths[city][dim]['pagerank_log_sim'], testing_out)
+        n2v_pagerank_process = mp.Process(target=run_print_sim, args=(node_emb, dist_data, traj_dict, rand_trajectories, 'node_emb', pagerank, city_paths[city][dim]['pagerank_log_sim']))
+        processes.append(n2v_pagerank_process)
+        log_pr.print_to_file(f'Process node2vec pagerank initialised', testing_out)
+
+        log_pr.print_graph_name(graph_str, city, city_paths[city][dim]['log_sim'], testing_out)
+        n2v_process = mp.Process(target=run_print_sim, args=(node_emb, dist_data, traj_dict, rand_trajectories, 'node_emb', None, city_paths[city][dim]['log_sim']))
+        processes.append(n2v_process)
+        del node_emb
+        log_pr.print_to_file(f'Process node2vec initialised', testing_out)
+        ##########################################################################################################
+
+        ######################################### Biased n2v ####################################################
+        biased_node_emb = dh.load_emb(city_paths[city][dim]['biased_emb'])
+        log_pr.print_graph_name(graph_str, city, city_paths[city][dim]['pagerank_log_biased_sim'], testing_out)
+        bn2v_pagerank_process = mp.Process(target=run_print_sim, args=(biased_node_emb, dist_data, traj_dict, rand_trajectories, 'node_emb', pagerank, city_paths[city][dim]['pagerank_log_biased_sim']))
+        processes.append(bn2v_pagerank_process)
+        log_pr.print_to_file(f'Process biased_node2vec_pagerank initialised', testing_out)
+
+        log_pr.print_graph_name(graph_str, city, city_paths[city][dim]['log_biased_sim'], testing_out)
+        bn2v_process = mp.Process(target=run_print_sim, args=(biased_node_emb, dist_data, traj_dict, rand_trajectories, 'node_emb', None, city_paths[city][dim]['log_biased_sim']))
+        processes.append(bn2v_process)
+        del biased_node_emb
+        log_pr.print_to_file(f'Process biased_node2vec initialised', testing_out)
+        ########################################################################################################
+
+        ########################################## Traj2Vec ####################################################
+        # traj_emb = dh.load_emb(city_paths[city][dim]['traj_emb'])
+        # log_pr.print_graph_name(graph_str, city, city_paths[city][dim]['log_traj_sim'], testing_out)
+        # bn2v_process = mp.Process(target=run_print_sim, args=(traj_emb, dist_data, traj_dict, rand_trajectories, 'traj_emb', city_paths[city][dim]['log_traj_sim']))
+        # processes.append(bn2v_process)
+        # del traj_emb
+        # log_pr.print_to_file(f'Process traj2vec initialised', testing_out)
+        ######################################################################################################
+
+        for process in processes:
+            process.start()
+
+        for process in processes:
+            process.join()
 
 
 if __name__ == '__main__':
     main()
-
-#
-# node2vec = Node2Vec(graph)
-#
-# # Εκπαίδευση του Node2Vec
-# model = node2vec.fit()
-#
-# print(model.wv.most_similar('5'))
-#
-# # Αποκτούμε τα διανύσματα των κόμβων από το εκπαιδευμένο μοντέλο
-# node_vectors = model.wv
-#
-# # Τώρα μπορούμε να αναζητήσουμε το διάνυσμα ενός κόμβου, για παράδειγμα του κόμβου '1'
-# vector_of_node1 = node_vectors[0]
-# vector_of_node2 = node_vectors[0]
-#
-# # Εκτύπωση του διανύσματος του κόμβου '1'
-# print(vector_of_node1 == vector_of_node2)
-# print(vector_of_node1)
-# print(vector_of_node2)
-
-# cities_paths = dh.load_city_paths()
-#
-# print(cities_paths['california']['dat_file'])

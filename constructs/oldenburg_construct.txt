@@ -38,3 +38,67 @@ Time for Traj2Vec embedding: 0hr 0min 50.20253sec
 
 *************************************************************************
 
+Oldenburg:
+
+DiGraph with 6105 nodes and 13988 edges
+
+Time to create graph: 0hr 0min 19.51922sec
+
+Time for pairs: 0hr 0min 30.95195sec
+
+Current Dimensions: 64
+
+Time for Node2Vec embedding: 0hr 1min 5.61597sec
+
+Time for embedding_dict: 0hr 0min 0.02705sec
+
+Time for Biased Node2Vec embedding: 0hr 0min 42.60679sec
+
+Time for Traj2Vec embedding: 0hr 1min 0.10632sec
+
+Current Dimensions: 128
+
+Time for Node2Vec embedding: 0hr 1min 10.92558sec
+
+Time for embedding_dict: 0hr 0min 0.03803sec
+
+Time for Biased Node2Vec embedding: 0hr 0min 47.24207sec
+
+Time for Traj2Vec embedding: 0hr 1min 3.64606sec
+
+Current Dimensions: 256
+
+Time for Node2Vec embedding: 0hr 1min 23.64270sec
+
+Time for embedding_dict: 0hr 0min 0.05891sec
+
+Time for Biased Node2Vec embedding: 0hr 0min 59.88423sec
+
+Time for Traj2Vec embedding: 0hr 1min 9.27895sec
+
+*************************************************************************
+
+Oldenburg:
+
+Time for pagerank: 0hr 0min 0.01450sec
+
+Oldenburg:
+
+Time for pagerank: 0hr 0min 0.01445sec
+
+Oldenburg:
+
+Time for pagerank: 0hr 0min 0.01461sec
+
+Oldenburg:
+
+Time for pagerank: 0hr 0min 0.01453sec
+
+Oldenburg:
+
+Time for pagerank: 0hr 0min 0.01657sec
+
+Oldenburg:
+
+Time for pagerank: 0hr 0min 0.01458sec
+

@@ -38,3 +38,43 @@ Time for Traj2Vec embedding: 0hr 1min 23.20518sec
 
 *************************************************************************
 
+Anchorage:
+
+DiGraph with 18366 nodes and 47994 edges
+
+Time to create graph: 0hr 0min 39.97025sec
+
+Time for pairs: 0hr 6min 26.82048sec
+
+Current Dimensions: 64
+
+Time for Node2Vec embedding: 0hr 3min 42.54611sec
+
+Time for embedding_dict: 0hr 0min 0.07896sec
+
+Time for Biased Node2Vec embedding: 0hr 2min 49.17932sec
+
+Time for Traj2Vec embedding: 0hr 2min 56.57643sec
+
+Current Dimensions: 128
+
+Time for Node2Vec embedding: 0hr 4min 17.14321sec
+
+Time for embedding_dict: 0hr 0min 0.10436sec
+
+Time for Biased Node2Vec embedding: 0hr 2min 3.49680sec
+
+Time for Traj2Vec embedding: 0hr 2min 47.87016sec
+
+Current Dimensions: 256
+
+Time for Node2Vec embedding: 0hr 5min 51.05095sec
+
+Time for embedding_dict: 0hr 0min 0.16280sec
+
+Time for Biased Node2Vec embedding: 0hr 3min 6.30438sec
+
+Time for Traj2Vec embedding: 0hr 4min 22.23852sec
+
+*************************************************************************
+

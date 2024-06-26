@@ -1,0 +1,83 @@
+Oldenburg:
+
+Time to create graph: 0hr 0min 12.58938sec
+
+Time for Node2Vec embedding: 0hr 8min 3.28342sec
+
+Time for embedding_dict: 0hr 0min 0.04974sec
+
+Time for pairs: 0hr 0min 32.26329sec
+
+***************************************************************
+
+San Francisco:
+
+Time to create graph: 0hr 0min 17.17704sec
+
+Time for Node2Vec embedding: 0hr 17min 9.06686sec
+
+Time for embedding_dict: 0hr 0min 0.03933sec
+
+Time for pairs: 0hr 2min 52.63281sec
+
+***************************************************************
+
+Anchorage:
+
+DiGraph with 18364 nodes and 47421 edges
+
+Time to create graph: 0hr 0min 12.87841sec
+
+Time for Node2Vec embedding: 0hr 25min 20.52676sec
+
+Time for embedding_dict: 0hr 0min 0.07545sec
+
+Time for pairs: 0hr 6min 56.49512sec
+
+***************************************************************
+
+El Dorado:
+
+DiGraph with 27294 nodes and 69057 edges
+
+Time to create graph: 0hr 0min 17.24712sec
+
+Time for Node2Vec embedding: 0hr 38min 46.58740sec
+
+Time for embedding_dict: 0hr 0min 0.15804sec
+
+Time for pairs: 0hr 14min 35.28029sec
+
+***************************************************************
+
+Knox County:
+
+DiGraph with 22845 nodes and 56947 edges
+
+Time to create graph: 0hr 0min 15.06019sec
+
+Time for Node2Vec embedding: 0hr 30min 35.76993sec
+
+Time for embedding_dict: 0hr 0min 0.07661sec
+
+Time for pairs: 0hr 9min 26.70776sec
+
+***************************************************************
+
+DiGraph with 6105 nodes and 13965 edges
+
+Time to create graph: 0hr 0min 12.38714sec
+
+Time for Node2Vec embedding: 0hr 1min 10.03639sec
+
+Time for embedding_dict: 0hr 0min 0.03645sec
+
+DiGraph with 6105 nodes and 13965 edges
+
+Time to create graph: 0hr 0min 12.78403sec
+
+Time for Node2Vec embedding: 0hr 1min 10.51676sec
+
+Time for embedding_dict: 0hr 0min 0.03605sec
+==================================================================================================================================================================================================================
+

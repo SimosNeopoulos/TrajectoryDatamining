@@ -13,6 +13,7 @@ from traj2vec import Traj2Vec
 
 from point import Point
 from trajectory import Trajectory
+from main import main_out, testing_out, testing2_out
 
 # Information on how to read a line from the trajectory file
 NEW_TRAJ_VALUE = '0'
@@ -112,6 +113,32 @@ def get_time_from_secs(secs):
 
 
 ############################ GRAPH DATA ################################
+
+
+def create_pagerank(graph: nx.DiGraph, log_path) -> dict:
+    start = timer()
+    pagerank = nx.pagerank(graph)
+    end = timer()
+
+    hrs, mins, secs = get_time_from_secs(end - start)
+    text_to_print = f'Time for pagerank: {hrs}hr {mins}min {secs:.5f}sec\n'
+
+    print(text_to_print)
+    log_pr.print_to_file(text_to_print, log_path)
+
+    return pagerank
+
+
+def save_pagerank(pagerank_dict, json_path):
+    with open(json_path, 'wb') as file:
+        pickle.dump(pagerank_dict, file)
+
+
+def load_pagerank(file_path):
+    with open(file_path, 'rb') as file:
+        pagerank_dict = pickle.load(file)
+    return pagerank_dict
+
 
 def load_graph(graph_path):
     with open(graph_path, 'r') as file:
@@ -440,8 +467,15 @@ def create_biased_traj_emb(traj_dict, log_file):
 
 def save_graph_pairs(graph, pairs_path, log_path):
     start = timer()
-    pair_dict = dict(nx.all_pairs_shortest_path_length(graph))
+    try:
+        pair_dict = dict(nx.all_pairs_shortest_path_length(graph))
+    except Exception as e:
+        error_message = f"An exception occurred: {str(e)}"
+        log_pr.print_to_file(error_message, testing2_out)
+        raise SystemExit("Program terminated due to exception. See error_log.txt for details.")
     end = timer()
+
+    del graph
 
     hrs, mins, secs = get_time_from_secs(end - start)
     text_to_print = f'Time for pairs: {hrs}hr {mins}min {secs:.5f}sec\n'
@@ -462,7 +496,7 @@ def load_graph_pairs(file_path):
 ############################################################################
 
 
-def load_city_paths(json_path=r'.\city_paths.json'):
+def load_city_paths(json_path=r'city_paths.json'):
     with open(json_path, 'r') as file:
         cities_paths = json.load(file)
     return cities_paths

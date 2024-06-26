@@ -38,3 +38,59 @@ Time for Traj2Vec embedding: 0hr 1min 58.35420sec
 
 *************************************************************************
 
+El Dorado:
+
+DiGraph with 27298 nodes and 70175 edges
+
+Time to create graph: 0hr 0min 42.70873sec
+
+Time for pairs: 0hr 15min 57.65336sec
+
+Current Dimensions: 64
+
+Time for Node2Vec embedding: 0hr 5min 50.79838sec
+
+Time for embedding_dict: 0hr 0min 0.13239sec
+
+Time for Biased Node2Vec embedding: 0hr 3min 28.94023sec
+
+Time for Traj2Vec embedding: 0hr 3min 39.58543sec
+
+Current Dimensions: 128
+
+Time for Node2Vec embedding: 0hr 7min 33.33507sec
+
+Time for embedding_dict: 0hr 0min 0.19182sec
+
+Time for Biased Node2Vec embedding: 0hr 2min 21.77929sec
+
+Time for Traj2Vec embedding: 0hr 4min 45.06383sec
+
+Current Dimensions: 256
+
+Time for Node2Vec embedding: 0hr 10min 0.46912sec
+
+Time for embedding_dict: 0hr 0min 0.24648sec
+
+Time for Biased Node2Vec embedding: 0hr 3min 52.44244sec
+
+Time for Traj2Vec embedding: 0hr 5min 35.65717sec
+
+*************************************************************************
+
+El Dorado:
+
+Time for pagerank: 0hr 0min 0.11344sec
+
+El Dorado:
+
+Time for pagerank: 0hr 0min 0.10766sec
+
+El Dorado:
+
+Time for pagerank: 0hr 0min 0.10773sec
+
+El Dorado:
+
+Time for pagerank: 0hr 0min 0.10622sec
+

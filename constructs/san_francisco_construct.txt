@@ -38,3 +38,43 @@ Time for Traj2Vec embedding: 0hr 1min 15.01081sec
 
 *************************************************************************
 
+San Francisco:
+
+DiGraph with 12599 nodes and 41797 edges
+
+Time to create graph: 0hr 0min 42.15732sec
+
+Time for pairs: 0hr 3min 1.93329sec
+
+Current Dimensions: 64
+
+Time for Node2Vec embedding: 0hr 2min 33.64911sec
+
+Time for embedding_dict: 0hr 0min 0.07026sec
+
+Time for Biased Node2Vec embedding: 0hr 3min 0.24588sec
+
+Time for Traj2Vec embedding: 0hr 2min 27.97355sec
+
+Current Dimensions: 128
+
+Time for Node2Vec embedding: 0hr 2min 45.31642sec
+
+Time for embedding_dict: 0hr 0min 0.08015sec
+
+Time for Biased Node2Vec embedding: 0hr 2min 7.39233sec
+
+Time for Traj2Vec embedding: 0hr 2min 39.54199sec
+
+Current Dimensions: 256
+
+Time for Node2Vec embedding: 0hr 3min 44.98864sec
+
+Time for embedding_dict: 0hr 0min 0.10672sec
+
+Time for Biased Node2Vec embedding: 0hr 2min 42.43727sec
+
+Time for Traj2Vec embedding: 0hr 3min 30.58298sec
+
+*************************************************************************
+
