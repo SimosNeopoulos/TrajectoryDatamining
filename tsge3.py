@@ -1,7 +1,7 @@
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
 
-class Traj2Vec:
+class TSGE3:
 
     def __init__(self, vec_dict: list, vector_size: int = 128, window: int = 5, min_count: int = 1, workers: int = 5, epochs: int = 1):
         self.vector_size = vector_size

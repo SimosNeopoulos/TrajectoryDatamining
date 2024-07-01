@@ -12,8 +12,8 @@ categories = ['TSGE1', 'TSGE2', 'TSGE3']
 
 
 def get_time_values(cityf, dimf, kf):
-    times1 = [city_paths[cityf][dimf]['node2vec'][f'k{kf}'][0], city_paths[cityf][dimf]['node2vecBiased'][f'k{kf}'][0], city_paths[cityf][dimf]['traj2vec'][f'k{kf}'][0]]
-    times2 = [city_paths[cityf][dimf]['node2vec'][f'k{kf}'][1], city_paths[cityf][dimf]['node2vecBiased'][f'k{kf}'][1], city_paths[cityf][dimf]['traj2vec'][f'k{kf}'][1]]
+    times1 = [city_paths[cityf][dimf]['TSGE1'][f'k{kf}'][0], city_paths[cityf][dimf]['TSGE2'][f'k{kf}'][0], city_paths[cityf][dimf]['TSGE3'][f'k{kf}'][0]]
+    times2 = [city_paths[cityf][dimf]['TSGE1'][f'k{kf}'][1], city_paths[cityf][dimf]['TSGE2'][f'k{kf}'][1], city_paths[cityf][dimf]['TSGE3'][f'k{kf}'][1]]
 
     if kf != '100':
         if kf == '10':

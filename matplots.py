@@ -7,17 +7,17 @@ import os
 dims = ['64', '128', '256']
 city_paths = dh.load_city_paths()
 cities = ['oldenburg', 'san_francisco', 'anchorage', 'knox_county', 'el_dorado']
+categories = ['TSGE1', 'TSGE2', 'TSGE3']
 
 
 def get_time_values(cityf, dimf):
-    times1 = [city_paths[cityf][dimf]['node2vec']['time'][0], city_paths[cityf][dimf]['node2vecBiased']['time'][0], city_paths[cityf][dimf]['traj2vec']['time'][0]]
-    times2 = [city_paths[cityf][dimf]['node2vec']['time'][1], city_paths[cityf][dimf]['node2vecBiased']['time'][1], city_paths[cityf][dimf]['traj2vec']['time'][1]]
+    times1 = [city_paths[cityf][dimf]['TSGE1']['time'][0], city_paths[cityf][dimf]['TSGE2']['time'][0], city_paths[cityf][dimf]['TSGE3']['time'][0]]
+    times2 = [city_paths[cityf][dimf]['TSGE1']['time'][1], city_paths[cityf][dimf]['TSGE2']['time'][1], city_paths[cityf][dimf]['TSGE3']['time'][1]]
     return times1, times2
 
 
 for city in cities:
     for dim in dims:
-        categories = ['TSGE1', 'TSGE2', 'TSGE3']
         values1, values2 = get_time_values(city, dim)
 
         bar_width = 0.35

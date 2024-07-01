@@ -1,6 +1,7 @@
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
 
+# This method isn't used since the results it yielded were the the worst by far
 class BiasedTraj2Vec:
 
     def __init__(self, traj_dict: dict, vector_size: int = 128, window: int = 5, min_count: int = 1, workers: int = 5, epochs: int = 20):

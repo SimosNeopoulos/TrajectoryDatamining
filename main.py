@@ -2,146 +2,119 @@ import data_handler as dh
 import log_printer as log_pr
 import random as rand
 from timeit import default_timer as timer
-import similarity_mesures as sm
+import similarity_measures as sm
 import multiprocessing as mp
 
-main_out = r'main_out.txt'
-testing_out = r'testing_out.txt'
-testing2_out = r'testing2_out.txt'
-cities = ['oldenburg', 'el_dorado']  # , 'san_francisco', 'anchorage', 'knox_county'
-
-dims = ['64', '128', '256']
+cities = ['oldenburg', 'san_francisco', 'anchorage', 'knox_county', 'el_dorado']
+dimensions = ['64', '128', '256']
 
 
-def get_rand_trajectories(catalog_num):
-    rand_trajectories = []
+def get_random_trajectories(catalog_size: int) -> list:
+    """Select 20 unique random trajectory indices from the catalog."""
+    random_trajectories = []
     for _ in range(20):
         while True:
-            rand_traj = rand.randint(0, catalog_num)
-            if rand_traj not in rand_trajectories:
+            random_traj = rand.randint(0, catalog_size - 1)
+            if random_traj not in random_trajectories:
                 break
-        rand_trajectories.append(rand_traj)
-    return rand_trajectories
+        random_trajectories.append(random_traj)
+    return random_trajectories
 
 
-def process_dist_sim(traj_dict, pair_dict, half, k, results_queue):
-    dist_data_half = []
-    for traj_id in half:
-        log_pr.print_to_file(f'Start of {traj_id}', main_out)
+def calculate_distance_data(traj_dict: dict, random_trajectories: list, shortest_paths_dict: dict, k: int) -> list:
+    """Calculate top-k distance similarities for random trajectories."""
+    distance_data = []
+    for traj_id in random_trajectories:
+        print(f'Starting calculations for trajectory {traj_id}')
         start = timer()
-        sim = sm.k_dist_sim(traj_dict[traj_id], traj_dict, pair_dict, k)
+        similarities = sm.top_k_distance_similarity(traj_dict[traj_id], traj_dict, shortest_paths_dict, k)
         end = timer()
-        log_pr.print_to_file(f'End of {traj_id} time: {dh.get_time_from_secs(end - start)}', main_out)
-        dist_data_half.append((sim, end - start))
-    results_queue.put(dist_data_half)
+        print(f'Finished trajectory {traj_id} in {dh.format_time(end - start)}')
+        distance_data.append((similarities, end - start))
+    return distance_data
 
 
-def get_dist_data(traj_dict: dict, rand_trajectories: list, pair_dict: dict, k: int) -> list:
-    dist_data = []
-    for traj_id in rand_trajectories:
-        print(f'Start of {traj_id}')
-        start = timer()
-        sim = sm.k_dist_sim(traj_dict[traj_id], traj_dict, pair_dict, k)
-        end = timer()
-        print(f'End of {traj_id} time: {dh.get_time_from_secs(end - start)}')
-        dist_data.append((sim, end - start))
-
-    return dist_data
-
-
-def run_print_sim(emb_dict, dist_data, traj_dict, rand_trajectories, sim_method, pagerank, log_file):
-    log_pr.print_to_file('Inside run_print_sim', main_out)
-    log_pr.print_sim(emb_dict=emb_dict,
-                     dist_data=dist_data,
-                     traj_dict=traj_dict,
-                     rand_traj=rand_trajectories,
-                     sim_method=sim_method,
-                     log_file=log_file,
-                     error_log_file=main_out,
-                     pagerank=pagerank)
+def run_similarity_printing(embedding_dict, distance_data, traj_dict, random_trajectories, sim_method, pagerank, log_file):
+    """Print similarity results to a log file."""
+    log_pr.log_similarity_results(
+        emb_dict=embedding_dict,
+        dist_data=distance_data,
+        traj_dict=traj_dict,
+        rand_traj=random_trajectories,
+        sim_method=sim_method,
+        log_file=log_file,
+        pagerank=pagerank
+    )
 
 
-def get_mock_dist_data():
-    return [(((i, i+1), i / 10), i) for i in range(20)]
+def create_graph_and_embeddings(city, traj_dict, city_paths):
+    graph = dh.create_graph(city_paths[city]['dat_file'], city_paths[city]['log_construct'])
+    dh.save_graph(graph, city_paths[city]['graph'])
+
+    dh.save_shortest_paths(graph, city_paths[city]['pairs'], city_paths[city]['log_construct'])
+
+    for dim in dimensions:
+        embedding = dh.create_tsge1_embedding(graph, int(dim), city_paths[city][dim]['log_sim'])
+        dh.save_embedding(embedding, city_paths[city][dim]['emb'])
+        del embedding
+
+        embedding = dh.create_tsge2_embedding(graph, int(dim), traj_dict, city_paths[city][dim]['log_biased_sim'])
+        dh.save_embedding(embedding, city_paths[city][dim]['biased_emb'])
+        del embedding
+
+        embedding = dh.create_tsge3_embedding(graph, int(dim), traj_dict, city_paths[city][dim]['log_traj_sim'])
+        dh.save_embedding(embedding, city_paths[city][dim]['traj_emb'])
+        del embedding
 
 
 def main():
-    log_pr.print_to_file('Inside main', main_out)
     city_paths = dh.load_city_paths()
 
     for city in cities:
-        log_pr.print_to_file(f'City {city} iteration started', main_out)
-        print(f'City {city} iteration started')
-        graph = dh.load_graph(city_paths[city]['graph2'])
-        pagerank = dh.load_pagerank(city_paths[city]['pagerank2'])
-        log_pr.print_to_file(f'Graph {city} loaded', main_out)
-        print(f'Graph {city} loaded')
-        graph_str = graph.__str__()
-        del graph
+        shortest_paths_dict = dh.load_shortest_paths(city_paths[city]['pairs'])
+        traj_dict = dh.build_trajectory_catalog(city_paths[city]['dat_file'])
+        random_trajectories = get_random_trajectories(len(traj_dict))
 
-        pair_dict = dh.load_graph_pairs(city_paths[city]['pairs2'])
-        log_pr.print_to_file(f'Pairs {city} loaded', main_out)
-        print(f'Pairs {city} loaded')
-        traj_dict = dh.get_trajectory_catalog(city_paths[city]['dat_file2'])
-        log_pr.print_to_file(f'Trajectories {city} loaded', main_out)
-        print(f'Trajectories {city} loaded')
-        traj_num = len(traj_dict)
-        rand_trajectories = get_rand_trajectories(traj_num)
+        distance_data = calculate_distance_data(traj_dict, random_trajectories, shortest_paths_dict, 1000)
+        del shortest_paths_dict  # Release memory after use
 
-        log_pr.print_to_file(f'{city} inside dist_data', main_out)
-        start = timer()
-        dist_data = get_dist_data(traj_dict, rand_trajectories, pair_dict, 1000)
-        # dist_data = get_mock_dist_data()
-        end = timer()
-        log_pr.print_to_file(f'Time for dist data: {dh.get_time_from_secs(end - start)}', main_out)
+        for dim in dimensions:
+            processes = []
 
-        del pair_dict
-        dim = dims[1]
-        # for dim in dims:
-        # log_pr.print_to_file(f'Dimension {dim} iteration started', main_out)
-        processes = []
-        ########################################## Normal n2v ####################################################
-        node_emb = dh.load_emb(city_paths[city][dim]['emb2'])
-        log_pr.print_graph_name(graph_str, city, city_paths[city][dim]['pagerank_log_sim2'], main_out)
-        n2v_pagerank_process = mp.Process(target=run_print_sim, args=(node_emb, dist_data, traj_dict, rand_trajectories, 'node_emb', pagerank, city_paths[city][dim]['pagerank_log_sim2']))
-        processes.append(n2v_pagerank_process)
-        log_pr.print_to_file(f'Process node2vec pagerank initialised', main_out)
+            ############################################ TSGE1 #####################################################
+            tsge1_node_embeddings = dh.load_embedding(city_paths[city][dim]['emb'])
+            tsge1_process = mp.Process(
+                target=run_similarity_printing,
+                args=(tsge1_node_embeddings, distance_data, traj_dict, random_trajectories, 'node_emb', None, city_paths[city][dim]['log_sim'])
+            )
+            processes.append(tsge1_process)
+            ########################################################################################################
 
-        log_pr.print_graph_name(graph_str, city, city_paths[city][dim]['log_sim2'], main_out)
-        n2v_process = mp.Process(target=run_print_sim, args=(node_emb, dist_data, traj_dict, rand_trajectories, 'node_emb', None, city_paths[city][dim]['log_sim2']))
-        processes.append(n2v_process)
-        del node_emb
-        log_pr.print_to_file(f'Process node2vec initialised', main_out)
-        ##########################################################################################################
+            ############################################## TSGE2 ###################################################
+            tsge2_node_embeddings = dh.load_embedding(city_paths[city][dim]['biased_emb'])
+            tsge2_process = mp.Process(
+                target=run_similarity_printing,
+                args=(tsge2_node_embeddings, distance_data, traj_dict, random_trajectories, 'node_emb', None, city_paths[city][dim]['log_biased_sim'])
+            )
+            processes.append(tsge2_process)
+            ########################################################################################################
 
-        ######################################### Biased n2v ####################################################
-        biased_node_emb = dh.load_emb(city_paths[city][dim]['biased_emb2'])
-        log_pr.print_graph_name(graph_str, city, city_paths[city][dim]['pagerank_log_biased_sim2'], main_out)
-        bn2v_pagerank_process = mp.Process(target=run_print_sim, args=(biased_node_emb, dist_data, traj_dict, rand_trajectories, 'node_emb', pagerank, city_paths[city][dim]['pagerank_log_biased_sim2']))
-        processes.append(bn2v_pagerank_process)
-        log_pr.print_to_file(f'Process biased_node2vec pagerank initialised', main_out)
+            ############################################ TSGE3 #####################################################
+            tsge3_embeddings = dh.load_embedding(city_paths[city][dim]['traj_emb'])
+            tsge3_embeddings_process = mp.Process(
+                target=run_similarity_printing,
+                args=(tsge3_embeddings, distance_data, traj_dict, random_trajectories, 'traj_emb', None, city_paths[city][dim]['log_traj_sim'])
+            )
+            processes.append(tsge3_embeddings_process)
+            ########################################################################################################
 
-        log_pr.print_graph_name(graph_str, city, city_paths[city][dim]['log_biased_sim2'], main_out)
-        bn2v_process = mp.Process(target=run_print_sim, args=(biased_node_emb, dist_data, traj_dict, rand_trajectories, 'node_emb', None, city_paths[city][dim]['log_biased_sim2']))
-        processes.append(bn2v_process)
-        del biased_node_emb
-        log_pr.print_to_file(f'Process biased_node2vec initialised', main_out)
-        ########################################################################################################
+            # Start all processes
+            for process in processes:
+                process.start()
 
-        ########################################## Traj2Vec ####################################################
-        # traj_emb = dh.load_emb(city_paths[city][dim]['traj_emb'])
-        # log_pr.print_graph_name(graph_str, city, city_paths[city][dim]['log_traj_sim'], main_out)
-        # bn2v_process = mp.Process(target=run_print_sim, args=(traj_emb, dist_data, traj_dict, rand_trajectories, 'traj_emb', city_paths[city][dim]['log_traj_sim']))
-        # processes.append(bn2v_process)
-        # del traj_emb
-        # log_pr.print_to_file(f'Process traj2vec initialised', main_out)
-        ######################################################################################################
-
-        for process in processes:
-            process.start()
-
-        for process in processes:
-            process.join()
+            # Ensure all processes complete
+            for process in processes:
+                process.join()
 
 
 if __name__ == '__main__':

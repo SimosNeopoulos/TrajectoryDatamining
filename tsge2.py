@@ -6,7 +6,7 @@ def _get_walks(traj_dict):
     return [traj.get_path_list() for traj in traj_dict.values()]
 
 
-class BiasedNode2Vec:
+class TSGE2:
 
     def __init__(self, graph: nx.Graph, dimensions: int = 128):
         self.graph = graph
